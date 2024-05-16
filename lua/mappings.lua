@@ -57,9 +57,6 @@ map("n", "<C-\\>", function()
 end, {
   desc = "Toggle horizontal term",
 })
-map("v", ">", "gv", {
-  desc = "indent",
-})
 map("t", "<C-\\>", function()
   require("nvterm.terminal").toggle "horizontal"
 end, {
