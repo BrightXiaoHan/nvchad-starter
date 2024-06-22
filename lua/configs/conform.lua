@@ -15,7 +15,7 @@ local options = {
 
     python = function(bufnr)
       if require("conform").get_formatter_info("ruff_format", bufnr).available then
-        return { "ruff_format" }
+        return { "ruff_format", "isort", "autoflake" }
       else
         return { "black", "isort", "autoflake" }
       end

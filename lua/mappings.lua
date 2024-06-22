@@ -98,6 +98,7 @@ map("n", "<leader>lp", "<cmd>lua vim.lsp.diagnostic.goto_prev()<cr>", {
 map("n", "<leader>ln", "<cmd>lua vim.lsp.diagnostic.goto_next()<cr>", {
   desc = "Next diagnostic",
 })
+map("n", "<leader>lg", "<cmd>LazyGit<cr>", { desc = "LazyGit" })
 map("n", "<C-LeftMouse>", "<cmd>lua vim.lsp.buf.definition()<cr>", {
   desc = "Go to definition",
 })

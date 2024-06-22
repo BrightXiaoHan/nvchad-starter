@@ -101,13 +101,18 @@ local plugins = { -- Override plugin definition options
     requires = { { "nvim-lua/plenary.nvim" } },
   },
   {
-    "CopilotC-Nvim/CopilotChat.nvim",
-    branch = "canary",
-    dependencies = { { "github/copilot.vim" }, { "nvim-lua/plenary.nvim" } },
-    opts = {
-      debug = false, -- Enable debugging
+    "kdheepak/lazygit.nvim",
+    cmd = {
+      "LazyGit",
+      "LazyGitConfig",
+      "LazyGitCurrentFile",
+      "LazyGitFilter",
+      "LazyGitFilterCurrentFile",
     },
-    lazy = false,
+    -- optional for floating window border decoration
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+    },
   },
 }
 
