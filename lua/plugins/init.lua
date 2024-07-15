@@ -46,17 +46,6 @@ local plugins = { -- Override plugin definition options
     end,
   },
   {
-    "iamcco/markdown-preview.nvim",
-    cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
-    build = "cd app && npm install",
-    init = function()
-      vim.g.mkdp_filetypes = { "markdown" }
-      vim.g.mkdp_echo_preview_url = 1
-      vim.g.mkdp_open_to_the_world = 1
-    end,
-    ft = { "markdown" },
-  },
-  {
     "github/copilot.vim",
     lazy = false,
   },
@@ -99,20 +88,6 @@ local plugins = { -- Override plugin definition options
   {
     "nvim-pack/nvim-spectre",
     requires = { { "nvim-lua/plenary.nvim" } },
-  },
-  {
-    "kdheepak/lazygit.nvim",
-    cmd = {
-      "LazyGit",
-      "LazyGitConfig",
-      "LazyGitCurrentFile",
-      "LazyGitFilter",
-      "LazyGitFilterCurrentFile",
-    },
-    -- optional for floating window border decoration
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-    },
   },
 }
 

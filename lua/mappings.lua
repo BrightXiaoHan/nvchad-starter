@@ -98,7 +98,6 @@ map("n", "<leader>lp", "<cmd>lua vim.lsp.diagnostic.goto_prev()<cr>", {
 map("n", "<leader>ln", "<cmd>lua vim.lsp.diagnostic.goto_next()<cr>", {
   desc = "Next diagnostic",
 })
-map("n", "<leader>lg", "<cmd>LazyGit<cr>", { desc = "LazyGit" })
 map("n", "<C-LeftMouse>", "<cmd>lua vim.lsp.buf.definition()<cr>", {
   desc = "Go to definition",
 })
@@ -158,14 +157,6 @@ map("n", "<leader>gd", "<cmd>lua require'gitsigns'.diffthis()<CR>", {
 })
 map("n", "<leader>gD", "<cmd>lua require'gitsigns'.diffthis()<CR>", {
   desc = "Diff this (vertical split)",
-})
-
--- Markdown preview mappings
-map("n", "<leader>mo", "<cmd>MarkdownPreview<cr>", {
-  desc = "Markdown Preview",
-})
-map("n", "<leader>mc", "<cmd>MarkdownPreviewStop<cr>", {
-  desc = "Markdown Close",
 })
 
 -- spectre mappings
