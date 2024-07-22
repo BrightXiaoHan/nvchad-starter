@@ -13,7 +13,7 @@ local options = {
     sh = { "shfmt" },
     fish = { "fish_indent" },
 
-    python = { "black", "isort", "autoflake" },
+    python = { "black", "isort"},
     -- Use the "*" filetype to run formatters on all filetypes.
     ["*"] = { "codespell" },
     -- Use the "_" filetype to run formatters on filetypes that don't
@@ -23,8 +23,3 @@ local options = {
 }
 
 require("conform").setup(options)
-
--- prepend_args can be a function, just like args
-require("conform").formatters.autoflake = {
-  prepend_args = { "-i", "--remove-all-unused-imports", "--ignore-init-module-imports" },
-}
