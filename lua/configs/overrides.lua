@@ -48,7 +48,7 @@ local function nvimtree_attach(bufnr)
 
   api.config.mappings.default_on_attach(bufnr)
 
-  vim.keymap.set("n", "l", api.node.open.edit, opts "Open")
+  vim.keymap.set("n", "l", api.node.open.preview, opts "Open preview")
   vim.keymap.set("n", "v", api.node.open.vertical, opts "Open: Vertical Split")
   vim.keymap.set("n", "h", api.node.open.horizontal, opts "Open: Horizontal Split")
 end
