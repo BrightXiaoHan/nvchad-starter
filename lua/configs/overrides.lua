@@ -59,6 +59,9 @@ M.nvimtree = {
     enable = true,
     ignore = false,
   },
+  update_focused_file = {
+    enable = false,
+  },
 
   filters = { custom = { "^.git$", "^__pycache__", "^.venv" } },
 
