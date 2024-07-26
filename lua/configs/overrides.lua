@@ -47,8 +47,10 @@ local function nvimtree_attach(bufnr)
   end
 
   api.config.mappings.default_on_attach(bufnr)
+  local open_preview = require("cmd").nvim_tree_open_preview
 
-  vim.keymap.set("n", "l", api.node.open.preview, opts "Open preview")
+  vim.keymap.set("n", "l", open_preview, opts "Open: Preview")
+  vim.keymap.set("n", "p", api.node.open.preview, opts "Open: Preview")
   vim.keymap.set("n", "v", api.node.open.vertical, opts "Open: Vertical Split")
   vim.keymap.set("n", "h", api.node.open.horizontal, opts "Open: Horizontal Split")
 end

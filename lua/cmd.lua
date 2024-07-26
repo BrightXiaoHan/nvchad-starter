@@ -18,4 +18,19 @@ end
 
 vim.api.nvim_create_user_command("PyRemoveUnusedImports", "lua require'cmd'.remove_unused_imports()", {})
 
+function M.nvim_tree_open_preview()
+  local api = require "nvim-tree.api"
+  local lib = require "nvim-tree.lib"
+  -- if current node is a folder, open it
+  local node = lib.get_node_at_cursor()
+  if node.type == "directory" then
+    api.node.open.preview()
+    return
+  end
+
+  -- if current node is a file, open preview it and switch to the window
+  api.node.open.preview()
+  vim.cmd "wincmd l"
+end
+
 return M
