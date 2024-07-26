@@ -161,6 +161,9 @@ map("n", "<leader>gd", "<cmd>lua require'gitsigns'.diffthis()<CR>", {
 map("n", "<leader>gD", "<cmd>lua require'gitsigns'.diffthis()<CR>", {
   desc = "Diff this (vertical split)",
 })
+map("n", "<leader>gm", "<cmd>lua require'neogit'.open({ kind = 'split' })<CR>", {
+  desc = "Open Neogit",
+})
 
 -- spectre mappings
 map("n", "<leader>S", '<cmd>lua require("spectre").toggle()<CR>', {

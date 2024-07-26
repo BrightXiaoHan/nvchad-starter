@@ -89,6 +89,19 @@ local plugins = { -- Override plugin definition options
     "nvim-pack/nvim-spectre",
     requires = { { "nvim-lua/plenary.nvim" } },
   },
+  {
+    "NeogitOrg/neogit",
+    dependencies = {
+      "nvim-lua/plenary.nvim", -- required
+      "sindrets/diffview.nvim", -- optional - Diff integration
+
+      -- Only one of these is needed, not both.
+      "nvim-telescope/telescope.nvim", -- optional
+      "ibhagwan/fzf-lua", -- optional
+    },
+    config = true,
+    lazy = false,
+  },
 }
 
 return plugins
