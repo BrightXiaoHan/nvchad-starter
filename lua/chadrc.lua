@@ -2,9 +2,6 @@
 local M = {}
 
 M.ui = {
-  theme = "vscode_dark",
-  theme_toggle = { "blossom_light", "vscode_dark" },
-
   hl_override = {
     Comment = {
       italic = true,
