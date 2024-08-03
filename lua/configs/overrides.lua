@@ -11,6 +11,7 @@ M.treesitter = {
     "markdown",
     "cmake",
     "dockerfile",
+    "yaml",
   },
   indent = {
     enable = true,

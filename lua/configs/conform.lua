@@ -9,6 +9,7 @@ local options = {
     json = { "prettier" },
     jsonc = { "prettier" },
     markdown = { "prettier" },
+    yaml = { "prettier" },
 
     sh = { "shfmt" },
     fish = { "fish_indent" },
