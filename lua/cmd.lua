@@ -23,6 +23,11 @@ function M.nvim_tree_open_preview()
   local lib = require "nvim-tree.lib"
   -- if current node is a folder, open it
   local node = lib.get_node_at_cursor()
+  -- nil check
+  if not node then
+    return
+  end
+
   if node.type == "directory" then
     api.node.open.preview()
     return
@@ -32,5 +37,20 @@ function M.nvim_tree_open_preview()
   api.node.open.preview()
   vim.cmd "wincmd l"
 end
+
+vim.api.nvim_create_autocmd("TextYankPost", {
+  callback = function()
+    vim.highlight.on_yank()
+    local version = vim.version()
+    -- if version is less than 0.10.0
+    if version.major == 0 and version.minor < 10 then
+      return
+    end
+    local copy_to_unnamedplus = require("vim.ui.clipboard.osc52").copy "+"
+    copy_to_unnamedplus(vim.v.event.regcontents)
+    local copy_to_unnamed = require("vim.ui.clipboard.osc52").copy "*"
+    copy_to_unnamed(vim.v.event.regcontents)
+  end,
+})
 
 return M
