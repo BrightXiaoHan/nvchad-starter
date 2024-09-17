@@ -38,6 +38,50 @@ function M.nvim_tree_open_preview()
   vim.cmd "wincmd l"
 end
 
+function M.nvim_tree_tsz()
+  if vim.env.SSH_TTY == nil then
+    return
+  end
+  local api = require "nvim-tree.api"
+  local lib = require "nvim-tree.lib"
+  -- if current node is a folder, open it
+  local node = lib.get_node_at_cursor()
+  -- nil check
+  if not node then
+    return
+  end
+  -- get absolute path of the current node
+  local path = node.absolute_path
+  -- run tsz command
+  vim.cmd("!tsz -q -y -d -b " .. path)
+  -- refresh the tree
+  api.tree.reload()
+end
+
+function M.nvim_tree_trz()
+  if vim.env.SSH_TTY == nil then
+    return
+  end
+  local api = require "nvim-tree.api"
+  local lib = require "nvim-tree.lib"
+  -- if current node is a folder, open it
+  local node = lib.get_node_at_cursor()
+  -- nil check
+  if not node then
+    return
+  end
+  -- get absolute path of the current node
+  local path = node.absolute_path
+  -- if current node is a file, get the parent directory of the file
+  if node.type == "file" then
+    path = vim.fn.fnamemodify(path, ":h")
+  end
+  -- run trz command
+  vim.cmd("!trz -q -y -b " .. path)
+  -- refresh the tree
+  api.tree.reload()
+end
+
 local function osc52_copy(text)
   local function set_clipboard(lines)
     local data = table.concat(lines, "\n")

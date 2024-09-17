@@ -49,10 +49,16 @@ local function nvimtree_attach(bufnr)
 
   api.config.mappings.default_on_attach(bufnr)
   local open_preview = require("cmd").nvim_tree_open_preview
+  local tsz = require("cmd").nvim_tree_tsz
+  local trz = require("cmd").nvim_tree_trz
 
   vim.keymap.set("n", "l", open_preview, opts "Open: Preview")
   vim.keymap.set("n", "v", api.node.open.vertical, opts "Open: Vertical Split")
   vim.keymap.set("n", "h", api.node.open.horizontal, opts "Open: Horizontal Split")
+  if vim.env.SSH_TTY then
+    vim.keymap.set("n", "t", tsz, opts "Open: tsz")
+    vim.keymap.set("n", "s", trz, opts "Open: trz")
+  end
 end
 
 -- git support in nvimtree
