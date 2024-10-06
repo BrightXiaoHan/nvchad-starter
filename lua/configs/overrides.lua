@@ -37,6 +37,9 @@ M.mason = {
     "black",
     "isort",
     "autoflake",
+
+    -- dap
+    "debugpy"
   },
 }
 
