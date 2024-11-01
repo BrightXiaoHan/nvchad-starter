@@ -112,6 +112,9 @@ map("n", "<C-RightMouse>", "<cmd>lua vim.lsp.buf.references()<cr>", {
 map("n", "<leader>li", "<cmd>PyRemoveUnusedImports<cr>", {
   desc = "Remove unused imports",
 })
+map("n", "<leader>ll", "<cmd>LspRestart<cr>", {
+  desc = "Restart LSP",
+})
 
 -- gitsigns mappings
 map("n", "]c", function()
