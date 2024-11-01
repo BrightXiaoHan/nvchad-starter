@@ -64,6 +64,11 @@ end, {
 })
 map("t", "<Esc>", "<C-\\><C-n>", {})
 
+-- blackhole mappings
+map("n", "<C-c>", "_", {
+  desc = "Blackhole",
+})
+
 -- Plugin mappings
 
 -- Copilot mappings
