@@ -20,9 +20,8 @@ vim.api.nvim_create_user_command("PyRemoveUnusedImports", "lua require'cmd'.remo
 
 function M.nvim_tree_open_preview()
   local api = require "nvim-tree.api"
-  local lib = require "nvim-tree.lib"
   -- if current node is a folder, open it
-  local node = lib.get_node_at_cursor()
+  local node = api.tree.get_node_under_cursor()
   -- nil check
   if not node then
     return
@@ -43,9 +42,8 @@ function M.nvim_tree_tsz()
     return
   end
   local api = require "nvim-tree.api"
-  local lib = require "nvim-tree.lib"
   -- if current node is a folder, open it
-  local node = lib.get_node_at_cursor()
+  local node = api.tree.get_node_under_cursor()
   -- nil check
   if not node then
     return
@@ -63,9 +61,8 @@ function M.nvim_tree_trz()
     return
   end
   local api = require "nvim-tree.api"
-  local lib = require "nvim-tree.lib"
   -- if current node is a folder, open it
-  local node = lib.get_node_at_cursor()
+  local node = api.tree.get_node_under_cursor()
   -- nil check
   if not node then
     return
