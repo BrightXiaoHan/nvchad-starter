@@ -69,6 +69,17 @@ map("n", "<C-c>", "_", {
   desc = "Blackhole",
 })
 
+-- Nvchad extention
+map("n", "<leader>c", function()
+  local current_bufnr = vim.api.nvim_get_current_buf()
+
+  for _, bufnr in ipairs(vim.t.bufs) do
+    if bufnr ~= current_bufnr then
+      require("nvchad.tabufline").close_buffer(bufnr)
+    end
+  end
+end, { desc = "buffer close" })
+
 -- Plugin mappings
 
 -- Copilot mappings
