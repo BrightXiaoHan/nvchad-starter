@@ -14,7 +14,7 @@ local options = {
     sh = { "shfmt" },
     fish = { "fish_indent" },
 
-    python = { "black", "isort"},
+    python = { "ruff_format", "ruff_organize_imports"},
     -- Use the "*" filetype to run formatters on all filetypes.
     ["*"] = { "codespell" },
     -- Use the "_" filetype to run formatters on filetypes that don't

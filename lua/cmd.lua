@@ -9,11 +9,11 @@ function M.remove_unused_imports()
   end
 
   -- test if autoflake is installed
-  if vim.fn.executable "autoflake" == 0 then
+  if vim.fn.executable "ruff" == 0 then
     return
   end
 
-  vim.cmd(":silent !autoflake --remove-all-unused-imports -i --ignore-init-module-imports " .. fileName, "silent")
+  vim.cmd(":silent !ruff check --fix --force-exclude --exit-zero --no-cache " .. fileName)
 end
 
 vim.api.nvim_create_user_command("PyRemoveUnusedImports", "lua require'cmd'.remove_unused_imports()", {})
