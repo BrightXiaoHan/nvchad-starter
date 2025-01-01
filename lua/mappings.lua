@@ -63,6 +63,12 @@ end, {
   desc = "Toggle horizontal term",
 })
 map("t", "<Esc>", "<C-\\><C-n>", {})
+map("n", "<C-`>", "<cmd>AvanteToggle<cr>", {
+  desc = "Toggle vertical term",
+})
+map("i", "<C-`>", "<cmd>AvanteToggle<cr>", {
+  desc = "Toggle vertical term",
+})
 
 -- blackhole mappings
 map("n", "<C-c>", "_", {
