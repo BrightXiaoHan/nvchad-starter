@@ -39,7 +39,7 @@ M.mason = {
     "autoflake",
 
     -- dap
-    "debugpy"
+    "debugpy",
   },
 }
 
@@ -106,22 +106,6 @@ M.cmp = {
   -- completion = {
   -- 	autocomplete = false,
   -- },
-}
-
--- if win32 then use powershell else fish
-if vim.fn.has "win32" == 1 then
-  SHELL = "pwsh.exe"
-else
-  SHELL = "fish"
-end
-
-M.nvterm = {
-  terminals = {
-    shell = SHELL,
-    type_opts = {
-      horizontal = { location = "rightbelow", split_ratio = 0.5, size = 50 },
-    },
-  },
 }
 
 return M

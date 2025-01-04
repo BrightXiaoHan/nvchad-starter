@@ -103,7 +103,7 @@ local function osc52_copy(text)
 end
 
 -- Function to copy the current selection
-function copy_selection()
+local function copy_selection()
   local mode = vim.fn.mode()
   if mode == "v" or mode == "V" or mode == "" then
     vim.cmd "normal! y"

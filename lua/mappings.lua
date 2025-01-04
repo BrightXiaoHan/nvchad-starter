@@ -52,21 +52,17 @@ map("n", "<leader>e", "<cmd>NvimTreeToggle<cr>", {
 map("n", "<leader>f", "<cmd>Telescope current_buffer_fuzzy_find<cr>", {
   desc = "Find",
 })
-map("n", "<C-\\>", function()
-  require("nvterm.terminal").toggle "horizontal"
-end, {
+map("n", "<C-\\>", "<cmd>ToggleTerm direction=horizontal<CR>", {
   desc = "Toggle horizontal term",
 })
-map("t", "<C-\\>", function()
-  require("nvterm.terminal").toggle "horizontal"
-end, {
+map("t", "<C-\\>", "<cmd>ToggleTerm direction=horizontal<CR>", {
   desc = "Toggle horizontal term",
 })
 map("t", "<Esc>", "<C-\\><C-n>", {})
-map("n", "<C-`>", "<cmd>AvanteToggle<cr>", {
+map("n", "<leader>\\", "<cmd>AvanteToggle<cr>", {
   desc = "Toggle vertical term",
 })
-map("i", "<C-`>", "<cmd>AvanteToggle<cr>", {
+map("i", "<leader>\\", "<cmd>AvanteToggle<cr>", {
   desc = "Toggle vertical term",
 })
 
