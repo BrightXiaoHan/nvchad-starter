@@ -108,4 +108,16 @@ M.cmp = {
   -- },
 }
 
+-- if win32, use pwsh
+-- otherwise, use fish
+if vim.fn.has "win32" == 1 then
+  SHELL = "pwsh"
+else
+  SHELL = "fish"
+end
+
+M.toggleterm = {
+  shell = SHELL,
+}
+
 return M

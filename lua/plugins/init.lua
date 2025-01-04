@@ -40,7 +40,7 @@ local plugins = { -- Override plugin definition options
     "hrsh7th/nvim-cmp",
     opts = overrides.cmp,
   },
-  { "akinsho/toggleterm.nvim", config = true, lazy = false },
+  { "akinsho/toggleterm.nvim", config = true, lazy = false , opts = overrides.toggleterm},
   {
     "max397574/better-escape.nvim",
     event = "InsertEnter",
