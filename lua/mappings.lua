@@ -65,6 +65,9 @@ map("n", "<leader>\\", "<cmd>AvanteToggle<cr>", {
 map("i", "<leader>\\", "<cmd>AvanteToggle<cr>", {
   desc = "Toggle vertical term",
 })
+map("n", "<leader>gf", "<cmd>OpenFileUnderCursor<cr>", {
+  desc = "Open file under cursor",
+})
 
 -- blackhole mappings
 map("n", "<C-c>", "_", {

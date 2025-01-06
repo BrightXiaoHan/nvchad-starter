@@ -131,6 +131,53 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   end,
 })
 
+-- Lua function to open file under cursor in a specific window
+function M.OpenFileUnderCursor()
+  -- Get all windows in the current tab
+  local windows = vim.api.nvim_tabpage_list_wins(0)
+  local selected_window
+
+  for _, win in ipairs(windows) do
+    -- Get the buffer associated with the window
+    local buf = vim.api.nvim_win_get_buf(win)
+
+    -- Get the file type of the buffer
+    local filetype = vim.bo[buf].filetype
+
+    -- Check if the window is not a terminal or nvim-tree window
+    if filetype ~= "NvimTree" and filetype ~= "toggleterm" then
+      selected_window = win
+      break
+    end
+  end
+
+  if not selected_window then
+    -- alert
+    vim.api.nvim_err_writeln "No suitable window found"
+    return
+  end
+
+  local file = vim.fn.expand "<cfile>" -- Get file under cursor
+  -- Check if the file exists
+  if vim.fn.filereadable(file) == 0 then
+    -- alert
+    vim.api.nvim_err_writeln("File does not exist: " .. file)
+    return
+  end
+
+  -- Get absolute path of the file
+  local absolute_path = vim.fn.fnamemodify(file, ":p")
+
+  -- Create or get buffer for the file
+  local bufnr = vim.fn.bufadd(absolute_path)
+  vim.fn.bufload(bufnr)
+
+  -- Set the buffer in the selected window
+  vim.api.nvim_win_set_buf(selected_window, bufnr)
+end
+
+vim.api.nvim_create_user_command("OpenFileUnderCursor", "lua require'cmd'.OpenFileUnderCursor()", {})
+
 -- Expose the function globally so it can be called from Neovim command line
 _G.osc52_copy = osc52_copy
 
