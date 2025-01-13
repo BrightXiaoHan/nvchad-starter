@@ -40,7 +40,7 @@ local plugins = { -- Override plugin definition options
     "hrsh7th/nvim-cmp",
     opts = overrides.cmp,
   },
-  { "akinsho/toggleterm.nvim", config = true, lazy = false , opts = overrides.toggleterm},
+  { "akinsho/toggleterm.nvim", config = true, lazy = false, opts = overrides.toggleterm },
   {
     "max397574/better-escape.nvim",
     event = "InsertEnter",
@@ -106,6 +106,13 @@ local plugins = { -- Override plugin definition options
     lazy = false,
   },
   {
+    "mcauley-penney/visual-whitespace.nvim",
+    config = true,
+    init = function()
+      require("visual-whitespace").setup()
+    end,
+  },
+  {
     "yetone/avante.nvim",
     event = "VeryLazy",
     lazy = false,
@@ -160,6 +167,18 @@ local plugins = { -- Override plugin definition options
         ft = { "Avante" },
       },
     },
+  },
+  -- vim-dap python
+  {
+    "mfussenegger/nvim-dap",
+  },
+  {
+    "mfussenegger/nvim-dap-python",
+    lazy = false,
+    dependencies = { "mfussenegger/nvim-dap" },
+    config = function()
+      require("dap-python").setup "uv"
+    end,
   },
 }
 

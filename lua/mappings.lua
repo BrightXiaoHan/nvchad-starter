@@ -199,3 +199,31 @@ map("n", "<leader>sw", '<cmd>lua require("spectre").open_visual({select_word=tru
 map("n", "<leader>sp", '<cmd>lua require("spectre").open_file_search({select_word=true})<CR>', {
   desc = "Search in current file",
 })
+
+-- Debugging mappings
+map({ "n", "i" }, "\\b", "<cmd>lua require'dap'.toggle_breakpoint()<CR>", {
+  desc = "Toggle breakpoint",
+})
+map({ "n", "i" }, "\\c", "<cmd>lua require'dap'.continue()<CR>", {
+  desc = "Start/Continue debugging",
+})
+map({ "n", "i" }, "\\s", "<cmd>lua require'dap'.step_into()<CR>", {
+  desc = "Step into",
+})
+map({ "n", "i" }, "\\n", "<cmd>lua require'dap'.step_over()<CR>", {
+  desc = "Step over",
+})
+map({ "n", "i" }, "\\S", "<cmd>lua require'dap'.step_out()<CR>", {
+  desc = "Step out",
+})
+map({ "n", "i" }, "\\t", "<cmd>lua require'dap'.repl.toggle()<CR>", {
+  desc = "Toggle REPL",
+})
+map(
+  { "n", "i" },
+  "\\C",
+  "<cmd>lua require'dap'.disconnect({ terminateDebuggee = true }); require'dap'.close()<CR>",
+  {
+    desc = "Terminate DAP and close UI",
+  }
+)
