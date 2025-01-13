@@ -17,6 +17,10 @@ local function nvimtree_attach(bufnr)
     vim.keymap.set("n", "t", tsz, opts "Open: tsz")
     vim.keymap.set("n", "s", trz, opts "Open: trz")
   end
+  vim.keymap.set("n", "<leader>e", "<cmd>NvimTreeToggle<cr>", {
+    desc = "Explorer",
+  })
+
 end
 
 -- git support in nvimtree

@@ -59,6 +59,14 @@ local plugin = {
       ft = { "Avante" },
     },
   },
+  init = function()
+    vim.keymap.set("n", "<leader>\\", "<cmd>AvanteToggle<cr>", {
+      desc = "Toggle vertical term",
+    })
+    vim.keymap.set("i", "<leader>\\", "<cmd>AvanteToggle<cr>", {
+      desc = "Toggle vertical term",
+    })
+  end,
 }
 
 return plugin

@@ -12,6 +12,11 @@ local plugin = {
       },
     }
   end,
+  init = function()
+    vim.keymap.set("n", "<leader>o", "<cmd>AerialToggle<cr>", {
+      desc = "Outline",
+    })
+  end,
 }
 
 return plugin

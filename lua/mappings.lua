@@ -34,47 +34,17 @@ map("n", "<A-Down>", "<C-w>-", {
 map("n", "<leader><tab>", "<C-w>w", {
   desc = "",
 })
-map("n", "<C-p>", ":Telescope find_files<CR>", {
-  desc = "Find file",
-})
-map("n", "<C-f>", ":Telescope live_grep<CR>", {
-  desc = "Fuzzy find",
-})
 map("n", "<leader>q", "<cmd>q<cr>", {
   desc = "Quit",
 })
-map("n", "<leader>o", "<cmd>AerialToggle<cr>", {
-  desc = "Outline",
-})
-map("n", "<leader>e", "<cmd>NvimTreeToggle<cr>", {
-  desc = "Explorer",
-})
-map("n", "<leader>f", "<cmd>Telescope current_buffer_fuzzy_find<cr>", {
-  desc = "Find",
-})
-map("n", "<C-\\>", "<cmd>ToggleTerm direction=horizontal<CR>", {
-  desc = "Toggle horizontal term",
-})
-map("t", "<C-\\>", "<cmd>ToggleTerm direction=horizontal<CR>", {
-  desc = "Toggle horizontal term",
-})
 map("t", "<Esc>", "<C-\\><C-n>", {})
-map("n", "<leader>\\", "<cmd>AvanteToggle<cr>", {
-  desc = "Toggle vertical term",
-})
-map("i", "<leader>\\", "<cmd>AvanteToggle<cr>", {
-  desc = "Toggle vertical term",
-})
-map("n", "<leader>gf", "<cmd>OpenFileUnderCursor<cr>", {
-  desc = "Open file under cursor",
-})
 
 -- blackhole mappings
 map("n", "<C-c>", "_", {
   desc = "Blackhole",
 })
 
--- Nvchad extention
+-- Custom cmd mappings
 map("n", "<leader>c", function()
   local current_bufnr = vim.api.nvim_get_current_buf()
 
@@ -84,8 +54,20 @@ map("n", "<leader>c", function()
     end
   end
 end, { desc = "buffer close" })
+map("n", "<leader>gf", "<cmd>OpenFileUnderCursor<cr>", {
+  desc = "Open file under cursor",
+})
 
--- Plugin mappings
+-- Telescope mappings
+map("n", "<C-p>", ":Telescope find_files<CR>", {
+  desc = "Find file",
+})
+map("n", "<C-f>", ":Telescope live_grep<CR>", {
+  desc = "Fuzzy find",
+})
+map("n", "<leader>f", "<cmd>Telescope current_buffer_fuzzy_find<cr>", {
+  desc = "Find",
+})
 
 -- Copilot mappings
 map("i", "<C-i>", function()
@@ -96,40 +78,6 @@ end, {
   silent = true,
   expr = true,
   noremap = true,
-})
-
--- Lsp mappings
-map("n", "gd", "<cmd>lua vim.lsp.buf.definition()<cr>", {
-  desc = "Go to definition",
-})
-map("n", "<leader>lf", function()
-  require("conform").format()
-end, {
-  desc = "formatting",
-})
-map("n", "<leader>lr", "<cmd>lua vim.lsp.buf.rename()<cr>", {
-  desc = "Rename",
-})
-map("n", "<leader>ld", "<cmd>lua vim.diagnostic.open_float(0, {scope='line'})<CR>", {
-  desc = "Line diagnostics",
-})
-map("n", "<leader>lp", "<cmd>lua vim.lsp.diagnostic.goto_prev()<cr>", {
-  desc = "Previous diagnostic",
-})
-map("n", "<leader>ln", "<cmd>lua vim.lsp.diagnostic.goto_next()<cr>", {
-  desc = "Next diagnostic",
-})
-map("n", "<C-LeftMouse>", "<cmd>lua vim.lsp.buf.definition()<cr>", {
-  desc = "Go to definition",
-})
-map("n", "<C-RightMouse>", "<cmd>lua vim.lsp.buf.references()<cr>", {
-  desc = "Go to references",
-})
-map("n", "<leader>li", "<cmd>PyRemoveUnusedImports<cr>", {
-  desc = "Remove unused imports",
-})
-map("n", "<leader>ll", "<cmd>LspRestart<cr>", {
-  desc = "Restart LSP",
 })
 
 -- gitsigns mappings
@@ -185,45 +133,3 @@ map("n", "<leader>gd", "<cmd>lua require'gitsigns'.diffthis()<CR>", {
 map("n", "<leader>gD", "<cmd>lua require'gitsigns'.diffthis()<CR>", {
   desc = "Diff this (vertical split)",
 })
-map("n", "<leader>gm", "<cmd>lua require'neogit'.open({ kind = 'split' })<CR>", {
-  desc = "Open Neogit",
-})
-
--- spectre mappings
-map("n", "<leader>S", '<cmd>lua require("spectre").toggle()<CR>', {
-  desc = "Toggle Spectre",
-})
-map("n", "<leader>sw", '<cmd>lua require("spectre").open_visual({select_word=true})<CR>', {
-  desc = "Search current word",
-})
-map("n", "<leader>sp", '<cmd>lua require("spectre").open_file_search({select_word=true})<CR>', {
-  desc = "Search in current file",
-})
-
--- Debugging mappings
-map({ "n", "i" }, "\\b", "<cmd>lua require'dap'.toggle_breakpoint()<CR>", {
-  desc = "Toggle breakpoint",
-})
-map({ "n", "i" }, "\\c", "<cmd>lua require'dap'.continue()<CR>", {
-  desc = "Start/Continue debugging",
-})
-map({ "n", "i" }, "\\s", "<cmd>lua require'dap'.step_into()<CR>", {
-  desc = "Step into",
-})
-map({ "n", "i" }, "\\n", "<cmd>lua require'dap'.step_over()<CR>", {
-  desc = "Step over",
-})
-map({ "n", "i" }, "\\S", "<cmd>lua require'dap'.step_out()<CR>", {
-  desc = "Step out",
-})
-map({ "n", "i" }, "\\t", "<cmd>lua require'dap'.repl.toggle()<CR>", {
-  desc = "Toggle REPL",
-})
-map(
-  { "n", "i" },
-  "\\C",
-  "<cmd>lua require'dap'.disconnect({ terminateDebuggee = true }); require'dap'.close()<CR>",
-  {
-    desc = "Terminate DAP and close UI",
-  }
-)

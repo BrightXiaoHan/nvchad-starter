@@ -39,10 +39,6 @@ local plugins = { -- Override plugin definition options
     "Pocco81/auto-save.nvim",
     lazy = false,
   },
-  {
-    "nvim-pack/nvim-spectre",
-    requires = { { "nvim-lua/plenary.nvim" } },
-  },
   -- import all plugins from the plugins directory
   -- this is a good way to keep the init.lua file clean
 }

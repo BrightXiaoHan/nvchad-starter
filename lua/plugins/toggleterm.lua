@@ -9,6 +9,20 @@ end
 local opts = {
   shell = SHELL,
 }
-local plugin = { "akinsho/toggleterm.nvim", config = true, lazy = false, opts = opts }
+
+local plugin = {
+  "akinsho/toggleterm.nvim",
+  config = true,
+  lazy = false,
+  opts = opts,
+  init = function()
+    vim.keymap.set("n", "<C-\\>", "<cmd>ToggleTerm direction=horizontal<CR>", {
+      desc = "Toggle horizontal term",
+    })
+    vim.keymap.set("t", "<C-\\>", "<cmd>ToggleTerm direction=horizontal<CR>", {
+      desc = "Toggle horizontal term",
+    })
+  end,
+}
 
 return plugin
