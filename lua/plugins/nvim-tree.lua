@@ -13,10 +13,7 @@ local function nvimtree_attach(bufnr)
   vim.keymap.set("n", "l", open_preview, opts "Open: Preview")
   vim.keymap.set("n", "v", api.node.open.vertical, opts "Open: Vertical Split")
   vim.keymap.set("n", "h", api.node.open.horizontal, opts "Open: Horizontal Split")
-  if vim.env.SSH_TTY then
-    vim.keymap.set("n", "t", tsz, opts "Open: tsz")
-    vim.keymap.set("n", "s", trz, opts "Open: trz")
-  end
+
   vim.keymap.set("n", "<leader>e", "<cmd>NvimTreeToggle<cr>", {
     desc = "Explorer",
   })

@@ -133,3 +133,19 @@ map("n", "<leader>gd", "<cmd>lua require'gitsigns'.diffthis()<CR>", {
 map("n", "<leader>gD", "<cmd>lua require'gitsigns'.diffthis()<CR>", {
   desc = "Diff this (vertical split)",
 })
+
+if vim.env.SSH_TTY then
+  vim.keymap.set(
+    "n",
+    "<leader>tr",
+    require("nvim-trzsz").nvim_tree_trz,
+    { noremap = true, silent = true, desc = "Trz: upload file" }
+  )
+
+  vim.keymap.set(
+    "n",
+    "<leader>ts",
+    require("nvim-trzsz").nvim_tree_tsz,
+    { noremap = true, silent = true, desc = "Tsz: download file" }
+  )
+end

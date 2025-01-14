@@ -32,6 +32,11 @@ local plugin = {
   --  for users those who want auto-save conform + lazyloading!
   -- event = "BufWritePre"
   config = config,
+  init = function()
+    vim.keymap.set("n", "<leader>lf", "<cmd>lua require('conform').format()<cr>", {
+      desc = "Format the current buffer",
+    })
+  end,
 }
 
 return plugin
