@@ -7,17 +7,10 @@ local function nvimtree_attach(bufnr)
 
   api.config.mappings.default_on_attach(bufnr)
   local open_preview = require("cmd").nvim_tree_open_preview
-  local tsz = require("cmd").nvim_tree_tsz
-  local trz = require("cmd").nvim_tree_trz
 
   vim.keymap.set("n", "l", open_preview, opts "Open: Preview")
   vim.keymap.set("n", "v", api.node.open.vertical, opts "Open: Vertical Split")
   vim.keymap.set("n", "h", api.node.open.horizontal, opts "Open: Horizontal Split")
-
-  vim.keymap.set("n", "<leader>e", "<cmd>NvimTreeToggle<cr>", {
-    desc = "Explorer",
-  })
-
 end
 
 -- git support in nvimtree
@@ -47,6 +40,12 @@ local opts = {
 local plugin = {
   "nvim-tree/nvim-tree.lua",
   opts = opts,
+  init = function()
+    -- nvim-tree
+    vim.keymap.set("n", "<leader>e", "<cmd>NvimTreeToggle<cr>", {
+      desc = "Explorer",
+    })
+  end,
 }
 
 return plugin

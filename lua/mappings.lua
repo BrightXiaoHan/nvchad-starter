@@ -1,12 +1,3 @@
-require "nvchad.mappings"
-
--- TODO remove useless nvchad default mapping
-vim.keymap.del("n", "<leader>ma")
-vim.keymap.del("n", "<leader>ds")
-vim.keymap.del("n", "<leader>rn")
-vim.keymap.del("n", "<leader>th")
-vim.keymap.del("n", "<leader>pt")
-
 local map = vim.keymap.set
 
 function ToggleWrap()
@@ -75,7 +66,6 @@ map("n", "<C-f>", ":Telescope live_grep<CR>", {
 map("n", "<leader>f", "<cmd>Telescope current_buffer_fuzzy_find<cr>", {
   desc = "Find",
 })
-
 
 -- gitsigns mappings
 map("n", "]c", function()

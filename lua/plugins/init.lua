@@ -35,10 +35,6 @@ local plugins = { -- Override plugin definition options
     "Pocco81/auto-save.nvim",
     lazy = false,
   },
-  {
-    "BrightXiaoHan/nvim-trzsz",
-    dependencies = { "nvim-tree/nvim-tree.lua" },
-  },
   -- import all plugins from the plugins directory
   -- this is a good way to keep the init.lua file clean
 }
