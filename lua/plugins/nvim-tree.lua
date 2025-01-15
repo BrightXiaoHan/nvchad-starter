@@ -1,3 +1,22 @@
+local function nvim_tree_open_preview()
+  local api = require "nvim-tree.api"
+  -- if current node is a folder, open it
+  local node = api.tree.get_node_under_cursor()
+  -- nil check
+  if not node then
+    return
+  end
+
+  if node.type == "directory" then
+    api.node.open.preview()
+    return
+  end
+
+  -- if current node is a file, open preview it and switch to the window
+  api.node.open.preview()
+  vim.cmd "wincmd l"
+end
+
 local function nvimtree_attach(bufnr)
   local api = require "nvim-tree.api"
 
@@ -6,7 +25,7 @@ local function nvimtree_attach(bufnr)
   end
 
   api.config.mappings.default_on_attach(bufnr)
-  local open_preview = require("cmd").nvim_tree_open_preview
+  local open_preview = nvim_tree_open_preview
 
   vim.keymap.set("n", "l", open_preview, opts "Open: Preview")
   vim.keymap.set("n", "v", api.node.open.vertical, opts "Open: Vertical Split")

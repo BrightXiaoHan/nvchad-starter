@@ -1,5 +1,18 @@
 local map = vim.keymap.set
 
+-- nvchad mappings
+map("n", "<tab>", function()
+  require("nvchad.tabufline").next()
+end, { desc = "buffer goto next" })
+
+map("n", "<S-tab>", function()
+  require("nvchad.tabufline").prev()
+end, { desc = "buffer goto prev" })
+
+map("n", "<leader>x", function()
+  require("nvchad.tabufline").close_buffer()
+end, { desc = "buffer close" })
+
 function ToggleWrap()
   vim.wo.wrap = not vim.wo.wrap
 end
@@ -37,6 +50,10 @@ map("n", "<leader>q", "<cmd>q<cr>", {
 })
 map("t", "<Esc>", "<C-\\><C-n>", {})
 
+-- Comment
+map("n", "<leader>/", "gcc", { desc = "toggle comment", remap = true })
+map("v", "<leader>/", "gc", { desc = "toggle comment", remap = true })
+
 -- blackhole mappings
 map("n", "<C-c>", "_", {
   desc = "Blackhole",
@@ -54,69 +71,4 @@ map("n", "<leader>c", function()
 end, { desc = "buffer close" })
 map("n", "<leader>gf", "<cmd>OpenFileUnderCursor<cr>", {
   desc = "Open file under cursor",
-})
-
--- Telescope mappings
-map("n", "<C-p>", ":Telescope find_files<CR>", {
-  desc = "Find file",
-})
-map("n", "<C-f>", ":Telescope live_grep<CR>", {
-  desc = "Fuzzy find",
-})
-map("n", "<leader>f", "<cmd>Telescope current_buffer_fuzzy_find<cr>", {
-  desc = "Find",
-})
-
--- gitsigns mappings
-map("n", "]c", function()
-  if vim.wo.diff then
-    return "[c"
-  end
-  vim.schedule(function()
-    require("gitsigns").prev_hunk()
-  end)
-  return "<Ignore>"
-end, {
-  expr = true,
-})
-map("n", "[c", function()
-  if vim.wo.diff then
-    return "]c"
-  end
-  vim.schedule(function()
-    require("gitsigns").next_hunk()
-  end)
-  return "<Ignore>"
-end, {
-  expr = true,
-})
-map("n", "<leader>gs", "<cmd>lua require'gitsigns'.stage_hunk()<CR>", {
-  desc = "Stage hunk",
-})
-map("n", "<leader>gr", "<cmd>lua require'gitsigns'.reset_hunk()<CR>", {
-  desc = "Reset hunk",
-})
-map("n", "<leader>gS", "<cmd>lua require'gitsigns'.stage_buffer()<CR>", {
-  desc = "Stage buffer",
-})
-map("n", "<leader>gu", "<cmd>lua require'gitsigns'.undo_stage_hunk()<CR>", {
-  desc = "Undo stage hunk",
-})
-map("n", "<leader>gR", "<cmd>lua require'gitsigns'.reset_buffer()<CR>", {
-  desc = "Reset buffer",
-})
-map("n", "<leader>gp", "<cmd>lua require'gitsigns'.preview_hunk()<CR>", {
-  desc = "Preview hunk",
-})
-map("n", "<leader>gb", "<cmd>lua require'gitsigns'.blame_line()<CR>", {
-  desc = "Blame line",
-})
-map("n", "<leader>gt", "<cmd>lua require'gitsigns'.toggle_current_line_blame()<CR>", {
-  desc = "Toggle current line blame",
-})
-map("n", "<leader>gd", "<cmd>lua require'gitsigns'.diffthis()<CR>", {
-  desc = "Diff this",
-})
-map("n", "<leader>gD", "<cmd>lua require'gitsigns'.diffthis()<CR>", {
-  desc = "Diff this (vertical split)",
 })

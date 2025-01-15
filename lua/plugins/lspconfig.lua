@@ -81,9 +81,6 @@ local plugin = {
     vim.keymap.set("n", "<C-RightMouse>", "<cmd>lua vim.lsp.buf.references()<cr>", {
       desc = "Go to references",
     })
-    vim.keymap.set("n", "<leader>li", "<cmd>PyRemoveUnusedImports<cr>", {
-      desc = "Remove unused imports",
-    })
     vim.keymap.set("n", "<leader>ll", "<cmd>LspRestart<cr>", {
       desc = "Restart LSP",
     })
