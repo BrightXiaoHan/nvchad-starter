@@ -75,6 +75,9 @@ local plugin = {
     vim.keymap.set("n", "<C-LeftMouse>", "<cmd>lua vim.lsp.buf.definition()<cr>", {
       desc = "Go to definition",
     })
+    vim.keymap.set("n", "gd", "<cmd>lua vim.lsp.buf.definition()<cr>", {
+      desc = "Go to definition",
+    })
     vim.keymap.set("n", "<C-RightMouse>", "<cmd>lua vim.lsp.buf.references()<cr>", {
       desc = "Go to references",
     })
