@@ -32,10 +32,6 @@ local plugins = { -- Override plugin definition options
     end,
   },
   {
-    "github/copilot.vim",
-    lazy = false,
-  },
-  {
     "Pocco81/auto-save.nvim",
     lazy = false,
   },
@@ -49,6 +45,12 @@ local plugins = { -- Override plugin definition options
 -- merge all_config into plugins
 for _, config in ipairs(all_config) do
   table.insert(plugins, config)
+end
+if not vim.env.DEEPSEEK_API_KEY then
+  table.insert(plugins, {
+    "github/copilot.vim",
+    lazy = false,
+  })
 end
 
 return plugins

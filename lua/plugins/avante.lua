@@ -1,7 +1,9 @@
 if vim.env.DEEPSEEK_API_KEY then
   AVANTE_PROVIDER = "deepseek"
+  AUTO_SUGGESTION = true
 else
   AVANTE_PROVIDER = "copilot"
+  AUTO_SUGGESTIONS = false
 end
 
 local plugin = {
@@ -11,7 +13,7 @@ local plugin = {
   version = false, -- set this if you want to always pull the latest change
   opts = {
     -- add any opts here
-    auto_suggestions_provider = "copilot", -- Since auto-suggestions are a high-frequency operation and therefore expensive, it is recommended to specify an inexpensive provider or even a free provider: copilot
+    auto_suggestions_provider = AVANTE_PROVIDER, -- Since auto-suggestions are a high-frequency operation and therefore expensive, it is recommended to specify an inexpensive provider or even a free provider: copilot
     provider = AVANTE_PROVIDER,
     vendors = {
       deepseek = {
@@ -19,6 +21,21 @@ local plugin = {
         api_key_name = "DEEPSEEK_API_KEY",
         endpoint = "https://api.deepseek.com",
         model = "deepseek-chat",
+      },
+    },
+    behaviour = {
+      auto_suggestions = AUTO_SUGGESTIONS, -- Experimental stage
+    },
+    windows = {
+      ---@type "right" | "left" | "top" | "bottom"
+      position = "top", -- the position of the sidebar
+    },
+    mappings = {
+      suggestion = {
+        accept = "<M-Tab>",
+        next = "<M-]>",
+        prev = "<M-[>",
+        dismiss = "<C-]>",
       },
     },
   },

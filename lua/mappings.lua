@@ -1,5 +1,12 @@
 require "nvchad.mappings"
 
+-- TODO remove useless nvchad default mapping
+vim.keymap.del("n", "<leader>ma")
+vim.keymap.del("n", "<leader>ds")
+vim.keymap.del("n", "<leader>rn")
+vim.keymap.del("n", "<leader>th")
+vim.keymap.del("n", "<leader>pt")
+
 local map = vim.keymap.set
 
 function ToggleWrap()
@@ -19,20 +26,20 @@ map("n", "<leader>w", "<cmd>lua ToggleWrap()<cr>", {
 map("n", "<leader>m", "<cmd>lua vim.o.mouse = vim.o.mouse == 'a' and 'v' or 'a'<cr>", {
   desc = "Toggle mouse mode",
 })
-map("n", "<C-Left>", "<C-w><", {
-  desc = "",
+map("n", "<A-Left>", "<C-w><", {
+  desc = "Decrease window width",
 })
-map("n", "<C-Right>", "<C-w>>", {
-  desc = "",
+map("n", "<A-Right>", "<C-w>>", {
+  desc = "Increase window width",
 })
 map("n", "<A-Up>", "<C-w>+", {
-  desc = "",
+  desc = "Increase window height",
 })
 map("n", "<A-Down>", "<C-w>-", {
-  desc = "",
+  desc = "Decrease window height",
 })
 map("n", "<leader><tab>", "<C-w>w", {
-  desc = "",
+  desc = "Switch window",
 })
 map("n", "<leader>q", "<cmd>q<cr>", {
   desc = "Quit",
@@ -69,16 +76,6 @@ map("n", "<leader>f", "<cmd>Telescope current_buffer_fuzzy_find<cr>", {
   desc = "Find",
 })
 
--- Copilot mappings
-map("i", "<C-i>", function()
-  vim.fn.feedkeys(vim.fn["copilot#Accept"](), "")
-end, {
-  replace_keycodes = true,
-  nowait = true,
-  silent = true,
-  expr = true,
-  noremap = true,
-})
 
 -- gitsigns mappings
 map("n", "]c", function()
@@ -133,19 +130,3 @@ map("n", "<leader>gd", "<cmd>lua require'gitsigns'.diffthis()<CR>", {
 map("n", "<leader>gD", "<cmd>lua require'gitsigns'.diffthis()<CR>", {
   desc = "Diff this (vertical split)",
 })
-
-if vim.env.SSH_TTY then
-  vim.keymap.set(
-    "n",
-    "<leader>tr",
-    require("nvim-trzsz").nvim_tree_trz,
-    { noremap = true, silent = true, desc = "Trz: upload file" }
-  )
-
-  vim.keymap.set(
-    "n",
-    "<leader>ts",
-    require("nvim-trzsz").nvim_tree_tsz,
-    { noremap = true, silent = true, desc = "Tsz: download file" }
-  )
-end
