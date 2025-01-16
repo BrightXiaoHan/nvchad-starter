@@ -35,6 +35,9 @@ local plugins = { -- Override plugin definition options
     "Pocco81/auto-save.nvim",
     lazy = false,
   },
+  {
+    "pteroctopus/faster.nvim",
+  },
   -- import all plugins from the plugins directory
   -- this is a good way to keep the init.lua file clean
 }
