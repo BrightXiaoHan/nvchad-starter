@@ -32,10 +32,6 @@ local plugins = { -- Override plugin definition options
     end,
   },
   {
-    "Pocco81/auto-save.nvim",
-    lazy = false,
-  },
-  {
     "pteroctopus/faster.nvim",
   },
   -- import all plugins from the plugins directory
