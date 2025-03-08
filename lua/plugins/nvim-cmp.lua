@@ -16,6 +16,9 @@ local opts = {
   -- completion = {
   -- 	autocomplete = false,
   -- },
+  cond = function()
+    return not vim.g.vscode
+  end,
 }
 
 local plugin = {

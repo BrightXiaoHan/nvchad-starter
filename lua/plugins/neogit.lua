@@ -15,6 +15,9 @@ local plugin = {
       desc = "Open Neogit",
     })
   end,
+  cond = function()
+    return not vim.g.vscode
+  end,
 }
 
 return plugin

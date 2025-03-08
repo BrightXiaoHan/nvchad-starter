@@ -62,5 +62,8 @@ local plugin = {
     return require "nvchad.configs.gitsigns"
   end,
   init = init,
+  cond = function()
+    return not vim.g.vscode
+  end,
 }
 return plugin

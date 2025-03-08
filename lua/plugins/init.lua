@@ -45,6 +45,9 @@ if not vim.env.DEEPSEEK_API_KEY then
   table.insert(plugins, {
     "github/copilot.vim",
     lazy = false,
+    cond = function()
+      return not vim.g.vscode
+    end,
   })
 end
 

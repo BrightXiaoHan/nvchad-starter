@@ -25,6 +25,9 @@ local opts = {
 local plugin = {
   "williamboman/mason.nvim",
   opts = opts,
+  cond = function()
+    return not vim.g.vscode
+  end,
 }
 
 return plugin

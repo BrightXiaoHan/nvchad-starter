@@ -17,6 +17,9 @@ local plugin = {
       desc = "Find",
     })
   end,
+  cond = function()
+    return not vim.g.vscode
+  end,
 }
 
 return plugin

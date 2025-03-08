@@ -23,6 +23,9 @@ local plugin = {
       desc = "Toggle horizontal term",
     })
   end,
+  cond = function()
+    return not vim.g.vscode
+  end,
 }
 
 return plugin
