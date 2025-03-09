@@ -1,34 +1,23 @@
+-- VSCode-Neovim compatible key mappings
+local vscode = require "vscode"
 local map = vim.keymap.set
 
-map("n", "<leader>x", "<Cmd>call VSCodeNotify('workbench.action.closeActiveEditor')", {
-  desc = "buffer close",
-})
-map("n", "<leader>w", "<Cmd>call VSCodeNotify('editor.action.toggleWordWrap')", {
-  desc = "Toggle wrap",
-})
-map("n", "<A-Left>", "<Cmd>call VSCodeNotify('workbench.action.decreaseViewSize')", {
-  desc = "Decrease window width",
-})
-map("n", "<A-Right>", "<Cmd>call VSCodeNotify('workbench.action.increaseViewSize')", {
-  desc = "Increase window width",
-})
-map("n", "<A-Up>", "<Cmd>call VSCodeNotify('workbench.action.increaseViewSize')", {
-  desc = "Increase window height",
-})
-map("n", "<A-Down>", "<Cmd>call VSCodeNotify('workbench.action.decreaseViewSize')", {
-  desc = "Decrease window height",
-})
-map("n", "<leader><tab>", "<Cmd>call VSCodeNotify('workbench.action.nextEditor')", {
-  desc = "Switch window",
-})
-map("n", "<leader>q", "<Cmd>call VSCodeNotify('workbench.action.closeActiveEditor')", {
-  desc = "Quit",
-})
-map("n", "<leader>c", "<Cmd>call VSCodeNotify('workbench.action.closeOtherEditors')", {
-  desc = "buffer close",
-})
+-- Switch window/editor
+map("n", "<leader><tab>", function()
+  vscode.action "workbench.action.navigateEditorGroups"
+end, { desc = "Switch editor group" })
 
--- toggle file explorer
-map("n", "<leader>e", "<Cmd>call VSCodeNotify('workbench.view.explorer')", {
-  desc = "Toggle file explorer",
-})
+-- Close other editors
+map("n", "<leader>c", function()
+  vscode.action "workbench.action.closeOtherEditors"
+end, { desc = "Close other editors" })
+
+-- Open file under cursor
+map("n", "<leader>gf", function()
+  vscode.action "editor.action.revealDefinition"
+end, { desc = "Open file under cursor" })
+
+-- plugins mappings alternatives
+map("n", "<leader>e", function()
+  vscode.action "workbench.view.explorer"
+end, { desc = "Toggle file explorer" })

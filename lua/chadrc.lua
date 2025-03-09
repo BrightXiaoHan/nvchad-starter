@@ -12,8 +12,14 @@ M.ui = {
   },
 }
 
-M.nvdash = {
-  load_on_startup = true,
-}
+if vim.g.vscode then
+  M.nvdash = {
+    enabled = false,
+  }
+else
+  M.nvdash = {
+    load_on_startup = true,
+  }
+end
 
 return M
