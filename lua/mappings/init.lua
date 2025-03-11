@@ -3,16 +3,6 @@
 
 local map = vim.keymap.set
 
--- General mappings (available in both VSCode and Neovim)
--- nvchad mappings
-map("n", "<tab>", function()
-  require("nvchad.tabufline").next()
-end, { desc = "buffer goto next" })
-
-map("n", "<S-tab>", function()
-  require("nvchad.tabufline").prev()
-end, { desc = "buffer goto prev" })
-
 -- General mappings
 map("n", ";", ":", {
   nowait = true,
