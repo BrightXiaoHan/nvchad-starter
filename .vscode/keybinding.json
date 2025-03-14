@@ -3,5 +3,10 @@
     "command": "workbench.action.toggleSidebarVisibility",
     "key": "space e",
     "when": "explorerViewletVisible && filesExplorerFocus && neovim.init && neovim.mode == normal"
+  },
+  {
+    "key": "space tab",
+    "command": "workbench.action.focusActiveEditorGroup",
+    "when": "explorerViewletVisible && filesExplorerFocus"
   }
 ]
