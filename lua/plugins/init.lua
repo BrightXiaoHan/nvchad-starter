@@ -41,14 +41,5 @@ local plugins = { -- Override plugin definition options
 for _, config in ipairs(all_config) do
   table.insert(plugins, config)
 end
-if not vim.env.DEEPSEEK_API_KEY then
-  table.insert(plugins, {
-    "github/copilot.vim",
-    lazy = false,
-    cond = function()
-      return not vim.g.vscode
-    end,
-  })
-end
 
 return plugins
