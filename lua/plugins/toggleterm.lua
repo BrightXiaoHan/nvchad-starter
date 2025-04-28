@@ -22,6 +22,12 @@ local plugin = {
     vim.keymap.set("t", "<C-\\>", "<cmd>ToggleTerm direction=horizontal<CR>", {
       desc = "Toggle horizontal term",
     })
+    vim.keymap.set("n", "<C-`>", "<cmd>ToggleTerm direction=horizontal<CR>", {
+      desc = "Toggle horizontal term",
+    })
+    vim.keymap.set("t", "<C-`>", "<cmd>ToggleTerm direction=horizontal<CR>", {
+      desc = "Toggle horizontal term",
+    })
   end,
   cond = function()
     return not vim.g.vscode
