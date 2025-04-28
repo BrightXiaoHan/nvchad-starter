@@ -13,12 +13,7 @@ local opts = {
 
     -- python stuff
     "pyright",
-    "black",
-    "isort",
-    "autoflake",
-
-    -- dap
-    "debugpy",
+    "ruff",
   },
 }
 
