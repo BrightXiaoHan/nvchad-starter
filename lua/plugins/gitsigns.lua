@@ -58,9 +58,12 @@ end
 local plugin = {
   "lewis6991/gitsigns.nvim",
   event = "User FilePost",
-  opts = function()
-    return require "nvchad.configs.gitsigns"
-  end,
+  opts = {
+    signs = {
+      delete = { text = "󰍵" },
+      changedelete = { text = "󱕖" },
+    },
+  },
   init = init,
   cond = function()
     return not vim.g.vscode

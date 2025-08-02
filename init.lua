@@ -15,16 +15,23 @@ local lazy_config = require "configs.lazy"
 
 -- load plugins
 require("lazy").setup({
+  "nvim-lua/plenary.nvim",
+  { "nvim-tree/nvim-web-devicons", lazy = true },
   {
-    "NvChad/NvChad",
-    lazy = false,
-    branch = "v2.5",
-    import = "nvchad.plugins",
+    "nvchad/ui",
     config = function()
-      require "options"
+      require "nvchad"
+    end,
+    lazy = false,
+  },
+  {
+    "nvchad/base46",
+    lazy = false,
+    build = function()
+      require("base46").load_all_highlights()
     end,
   },
-
+  "nvchad/volt", -- optional, needed for theme switcher
   { import = "plugins" },
 }, lazy_config)
 
@@ -32,8 +39,8 @@ require("lazy").setup({
 dofile(vim.g.base46_cache .. "defaults")
 dofile(vim.g.base46_cache .. "statusline")
 
-require "nvchad.autocmds"
 require "cmd"
+require "autocmd"
 
 vim.schedule(function()
   require "mappings"
