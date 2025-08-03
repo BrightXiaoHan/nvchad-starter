@@ -10,6 +10,7 @@ return {
       not_loaded = "",
     },
   },
+  change_detection = { notify = false },
 
   performance = {
     rtp = {
