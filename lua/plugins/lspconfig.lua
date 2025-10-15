@@ -1,20 +1,17 @@
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 
 local function config()
-
-  local lspconfig = require "lspconfig"
-
   -- if you just want default config for the servers then put them in a table
   local servers = { "clangd", "pyright", "lua_ls", "bashls" }
 
   for _, lsp in ipairs(servers) do
-    lspconfig[lsp].setup {
+    vim.lsp.enable(lsp, {
       capabilities = capabilities,
-    }
+    })
   end
 
   --
-  lspconfig.pyright.setup {
+  vim.lsp.config("pyright", {
     -- disable diagnostics
     settings = {
       python = {
@@ -24,9 +21,9 @@ local function config()
         },
       },
     },
-  }
+  })
 
-  lspconfig.lua_ls.setup {
+  vim.lsp.config("lua_ls", {
     settings = {
       Lua = {
         runtime = {
@@ -51,7 +48,7 @@ local function config()
         },
       },
     },
-  }
+  })
 end
 
 local plugin = {
