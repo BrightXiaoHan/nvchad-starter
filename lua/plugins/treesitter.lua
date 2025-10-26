@@ -11,6 +11,10 @@ local opts = {
     "dockerfile",
     "yaml",
   },
+  highlight = {
+    enable = true,
+    additional_vim_regex_highlighting = false,
+  },
   indent = {
     enable = true,
     disable = {},
@@ -21,5 +25,9 @@ local plugin = {
   "nvim-treesitter/nvim-treesitter",
   opts = opts,
   lazy = false,
+  config = function(_, opts)
+    require("nvim-treesitter.configs").setup(opts)
+  end,
+  build = ":TSUpdate",
 }
 return plugin
