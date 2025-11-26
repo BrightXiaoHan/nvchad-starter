@@ -55,7 +55,3 @@ map("n", "<leader>c", function()
     end
   end
 end, { desc = "buffer close" })
-
-map("n", "<leader>gf", "<cmd>OpenFileUnderCursor<cr>", {
-  desc = "Open file under cursor",
-})
