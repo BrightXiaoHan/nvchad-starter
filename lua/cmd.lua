@@ -35,6 +35,12 @@ end
 
 vim.api.nvim_create_autocmd("TextYankPost", {
   callback = function()
+    -- Skip expensive clipboard sync for delete/change operations; only run on actual yanks
+    local event = vim.v.event
+    if not event or event.operator ~= "y" then
+      return
+    end
+
     if vim.env.TMUX then
       copy_selection()
     elseif vim.env.SSH_TTY then
