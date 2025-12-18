@@ -41,7 +41,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
       return
     end
 
-    if vim.env.TMUX then
+    if vim.env.SSH_TTY and vim.env.TMUX then
       copy_selection()
     elseif vim.env.SSH_TTY then
       vim.highlight.on_yank()
