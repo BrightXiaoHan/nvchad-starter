@@ -10,62 +10,61 @@ local opts = {
     shell = SHELL,
 }
 
-local function make_codex_toggle(cmd, count)
-    local Terminal = require("toggleterm.terminal").Terminal
-    local codex_term = Terminal:new {
-        cmd = cmd,
-        direction = "vertical",
-        count = count,
-        size = function()
-            return math.floor(vim.o.columns / 3)
-        end,
-        hidden = true,
-    }
+-- AI terminals state management (mutually exclusive)
+local ai_terms = {}
+local function ai_term_size()
+    return math.floor(vim.o.columns / 3)
+end
 
-    return function()
-        codex_term:toggle()
-        -- keep the Codex terminal docked on the right
-        if codex_term:is_open() then
-            vim.cmd "wincmd L"
+local function hide_other_ai_terms(current_name)
+    for name, state in pairs(ai_terms) do
+        if name ~= current_name and state.term and state.term:is_open() then
+            state.term:close()
         end
     end
 end
 
-local function make_gemini_toggle()
+local function get_or_create_ai_term(name, cmd, count)
     local Terminal = require("toggleterm.terminal").Terminal
-    local gemini_term = Terminal:new {
-        cmd = "gemini",
-        direction = "vertical",
-        count = 98,
-        size = function()
-            return math.floor(vim.o.columns / 3)
-        end,
-        hidden = true,
-    }
+    local state = ai_terms[name]
 
-    return function()
-        gemini_term:toggle()
-        if gemini_term:is_open() then
-            vim.cmd "wincmd L"
+    -- Handle codex special case: different cmd means recreate terminal
+    if state and state.term and state.cmd ~= cmd then
+        if state.term:is_open() then
+            return state.term
         end
+        state.term:shutdown()
+        state.term = nil
     end
+
+    if not state or not state.term then
+        ai_terms[name] = {
+            term = Terminal:new {
+                cmd = cmd,
+                direction = "vertical",
+                count = count,
+                size = ai_term_size,
+                hidden = true,
+            },
+            cmd = cmd,
+        }
+    end
+    return ai_terms[name].term
 end
 
-local function make_kimi_toggle()
-    local Terminal = require("toggleterm.terminal").Terminal
-    local kimi_term = Terminal:new {
-        cmd = "kimi",
-        direction = "vertical",
-        count = 97,
-        size = function()
-            return math.floor(vim.o.columns / 3)
-        end,
-        hidden = true,
-    }
-
+local function make_ai_toggle(name, cmd, count)
     return function()
-        kimi_term:toggle()
-        if kimi_term:is_open() then
+        local term = get_or_create_ai_term(name, cmd, count)
+
+        if term:is_open() then
+            term:focus()
+            vim.cmd "wincmd L"
+            return
+        end
+
+        hide_other_ai_terms(name)
+        term:toggle()
+        if term:is_open() then
             vim.cmd "wincmd L"
         end
     end
@@ -83,10 +82,11 @@ local plugin = {
     config = function(_, _opts)
         require("toggleterm").setup(_opts)
 
-        local toggle_codex = make_codex_toggle("codex", 99)
-        local toggle_codex_resume = make_codex_toggle("codex resume", 96)
-        local toggle_gemini = make_gemini_toggle()
-        local toggle_kimi = make_kimi_toggle()
+        local toggle_codex = make_ai_toggle("codex", "codex", 99)
+        local toggle_codex_resume = make_ai_toggle("codex", "codex resume", 99)
+        local toggle_gemini = make_ai_toggle("gemini", "gemini", 98)
+        local toggle_kimi = make_ai_toggle("kimi", "kimi", 97)
+        local toggle_claude = make_ai_toggle("claude", "claude", 96)
         vim.keymap.set({ "n", "t" }, "<leader>tc", toggle_codex, {
             desc = "Toggle Codex terminal",
         })
@@ -101,6 +101,9 @@ local plugin = {
         })
         vim.keymap.set({ "n", "t" }, "<A-k>", toggle_kimi, {
             desc = "Toggle Kimi terminal",
+        })
+        vim.keymap.set({ "n", "t" }, "<A-c>", toggle_claude, {
+            desc = "Toggle Claude Code terminal",
         })
     end,
     lazy = false,
