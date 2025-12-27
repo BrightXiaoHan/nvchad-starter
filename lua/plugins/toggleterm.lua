@@ -41,10 +41,22 @@ local function get_or_create_ai_term(name, cmd, count)
         ai_terms[name] = {
             term = Terminal:new {
                 cmd = cmd,
-                direction = "vertical",
+                direction = "float",
                 count = count,
-                size = ai_term_size,
                 hidden = true,
+                float_opts = {
+                    border = "curved",
+                    width = function()
+                        return math.floor(vim.o.columns / 2)
+                    end,
+                    height = function()
+                        return vim.o.lines - 4
+                    end,
+                    col = function()
+                        return vim.o.columns -- right aligned
+                    end,
+                    row = 0,
+                },
             },
             cmd = cmd,
         }
@@ -57,16 +69,12 @@ local function make_ai_toggle(name, cmd, count)
         local term = get_or_create_ai_term(name, cmd, count)
 
         if term:is_open() then
-            term:focus()
-            vim.cmd "wincmd L"
+            term:close()
             return
         end
 
         hide_other_ai_terms(name)
-        term:toggle()
-        if term:is_open() then
-            vim.cmd "wincmd L"
-        end
+        term:open()
     end
 end
 
@@ -87,6 +95,7 @@ local plugin = {
         local toggle_gemini = make_ai_toggle("gemini", "gemini", 98)
         local toggle_kimi = make_ai_toggle("kimi", "kimi", 97)
         local toggle_claude = make_ai_toggle("claude", "claude", 96)
+        local toggle_opencode = make_ai_toggle("opencode", "opencode", 95)
         vim.keymap.set({ "n", "t" }, "<leader>tc", toggle_codex, {
             desc = "Toggle Codex terminal",
         })
@@ -104,6 +113,9 @@ local plugin = {
         })
         vim.keymap.set({ "n", "t" }, "<A-c>", toggle_claude, {
             desc = "Toggle Claude Code terminal",
+        })
+        vim.keymap.set({ "n", "t" }, "<A-p>", toggle_opencode, {
+            desc = "Toggle OpenCode terminal",
         })
     end,
     lazy = false,
