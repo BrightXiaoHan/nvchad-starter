@@ -43,7 +43,7 @@ map("n", "<leader><tab>", "<C-w>w", {
 map("n", "<leader>q", "<cmd>q<cr>", {
   desc = "Quit",
 })
-map("t", "<Esc>", "<C-\\><C-n>", {})
+map("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
 
 -- Custom cmd mappings
 map("n", "<leader>c", function()
