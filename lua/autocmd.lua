@@ -34,3 +34,23 @@ autocmd({ "BufLeave", "BufWinLeave", "BufUnload", "BufDelete", "QuitPre" }, {
         end
     end,
 })
+
+-- Auto reload file when external changes detected
+vim.o.autoread = true
+vim.o.updatetime = 250
+autocmd({ "FocusGained", "BufEnter", "CursorHold", "CursorHoldI" }, {
+    group = vim.api.nvim_create_augroup("AutoReloadOnFocus", { clear = true }),
+    callback = function()
+        if vim.fn.getcmdwintype() == "" then
+            vim.cmd("checktime")
+        end
+    end,
+})
+
+-- Notify when file changed
+autocmd("FileChangedShellPost", {
+    group = vim.api.nvim_create_augroup("FileChangedNotify", { clear = true }),
+    callback = function()
+        vim.notify("File changed on disk. Reloaded.", vim.log.levels.INFO)
+    end,
+})
