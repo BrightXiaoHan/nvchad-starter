@@ -8,6 +8,15 @@ end
 
 local opts = {
     shell = SHELL,
+    highlights = {
+        NormalFloat = {
+            guibg = "#0d1117",
+        },
+        FloatBorder = {
+            guibg = "#0d1117",
+            guifg = "#0d1117",
+        },
+    },
 }
 
 -- AI terminals state management (mutually exclusive)
@@ -45,7 +54,7 @@ local function get_or_create_ai_term(name, cmd, count)
                 count = count,
                 hidden = true,
                 float_opts = {
-                    border = "curved",
+                    border = "none",
                     width = function()
                         return math.floor(vim.o.columns / 2)
                     end,
@@ -78,10 +87,33 @@ local function make_ai_toggle(name, cmd, count)
     end
 end
 
-local function make_tab_toggle()
-    -- force terminal 1 to always open in a new tab, regardless of prior state
+local function make_float_bottom_toggle()
+    local Terminal = require("toggleterm.terminal").Terminal
+    local bottom_term = nil
+
     return function()
-        require("toggleterm").toggle(1, nil, nil, "tab")
+        if not bottom_term then
+            bottom_term = Terminal:new {
+                cmd = SHELL,
+                direction = "float",
+                count = 1,
+                hidden = true,
+                float_opts = {
+                    border = "none",
+                    width = function()
+                        return vim.o.columns
+                    end,
+                    height = function()
+                        return math.floor((vim.o.lines - 2) * 2 / 3)
+                    end,
+                    col = 0,
+                    row = function()
+                        return math.floor((vim.o.lines - 2) / 3)
+                    end,
+                },
+            }
+        end
+        bottom_term:toggle()
     end
 end
 
@@ -121,7 +153,7 @@ local plugin = {
     lazy = false,
     opts = opts,
     init = function()
-        local toggle_tab = make_tab_toggle()
+        local toggle_tab = make_float_bottom_toggle()
         vim.keymap.set("n", "<C-\\>", toggle_tab, {
             desc = "Toggle tab term",
         })
