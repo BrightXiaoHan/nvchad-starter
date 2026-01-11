@@ -16,6 +16,9 @@ if vim.g.vscode then
   M.nvdash = {
     enabled = false,
   }
+  M.ui.tabufline = {
+    enabled = false,
+  }
 else
   M.nvdash = {
     load_on_startup = true,
