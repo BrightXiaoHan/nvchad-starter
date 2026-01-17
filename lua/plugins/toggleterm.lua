@@ -136,6 +136,8 @@ function Terminal:_apply_win_options()
   if self.float_opts.winblend ~= nil then
     vim.wo[self.win].winblend = self.float_opts.winblend
   end
+  vim.wo[self.win].scrolloff = 0
+  vim.wo[self.win].sidescrolloff = 0
 end
 
 function Terminal:_register_autocmds()
@@ -283,7 +285,7 @@ local function get_or_create_ai_term(name, cmd, id)
           return math.floor(vim.o.columns / 2)
         end,
         height = function()
-          return vim.o.lines - 4
+          return vim.o.lines
         end,
         col = function()
           return vim.o.columns -- right aligned
@@ -324,11 +326,12 @@ local function make_float_bottom_toggle()
             return vim.o.columns
           end,
           height = function()
-            return math.floor((vim.o.lines - 2) * 2 / 3)
+            return math.floor(vim.o.lines * 2 / 3)
           end,
           col = 0,
           row = function()
-            return math.floor((vim.o.lines - 2) / 3)
+            local height = math.floor(vim.o.lines * 2 / 3)
+            return vim.o.lines - height
           end,
         },
       }
