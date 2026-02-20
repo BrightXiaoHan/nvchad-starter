@@ -26,7 +26,7 @@ local plugin = {
   opts = opts,
   lazy = false,
   config = function(_, opts)
-    require("nvim-treesitter.configs").setup(opts)
+    require("nvim-treesitter").setup(opts)
   end,
   build = ":TSUpdate",
 }
