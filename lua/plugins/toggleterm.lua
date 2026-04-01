@@ -346,8 +346,7 @@ local plugin = {
   config = function()
     apply_highlights()
 
-    local toggle_codex = make_ai_toggle("codex", "codex", 99)
-    local toggle_codex_resume = make_ai_toggle("codex", "codex resume", 99)
+    local toggle_codex = make_ai_toggle("codex", "codex --resume", 99)
     local toggle_gemini = make_ai_toggle("gemini", "gemini", 98)
     local toggle_kimi = make_ai_toggle("kimi", "kimi", 97)
     local toggle_claude = make_ai_toggle("claude", "claude", 96)
@@ -357,9 +356,6 @@ local plugin = {
     })
     vim.keymap.set({ "n", "t" }, "<A-l>", toggle_codex, {
       desc = "Toggle Codex terminal",
-    })
-    vim.keymap.set({ "n", "t" }, "<A-L>", toggle_codex_resume, {
-      desc = "Toggle Codex terminal (resume)",
     })
     vim.keymap.set({ "n", "t" }, "<A-g>", toggle_gemini, {
       desc = "Toggle Gemini terminal",
