@@ -52,11 +52,13 @@ local function float_config(term)
   local opts = term.float_opts or {}
   local width = math.ceil(math.min(vim.o.columns, math.max(80, vim.o.columns - 20)))
   local height = math.ceil(math.min(vim.o.lines, math.max(20, vim.o.lines - 10)))
-  local row = math.ceil(vim.o.lines - height) * 0.5 - 1
-  local col = math.ceil(vim.o.columns - width) * 0.5 - 1
 
   width = resolve_size(opts.width, term) or width
   height = resolve_size(opts.height, term) or height
+
+  local row = math.ceil(vim.o.lines - height) * 0.5 - 1
+  local col = math.ceil(vim.o.columns - width) * 0.5 - 1
+
   row = resolve_size(opts.row, term) or row
   col = resolve_size(opts.col, term) or col
 
@@ -288,7 +290,7 @@ local function get_or_create_ai_term(name, cmd, id)
           return vim.o.lines
         end,
         col = function()
-          return vim.o.columns -- right aligned
+          return math.ceil(vim.o.columns / 2) -- right aligned
         end,
         row = 0,
       },
@@ -346,7 +348,7 @@ local plugin = {
   config = function()
     apply_highlights()
 
-    local toggle_codex = make_ai_toggle("codex", "codex --resume", 99)
+    local toggle_codex = make_ai_toggle("codex", "codex", 99)
     local toggle_gemini = make_ai_toggle("gemini", "gemini", 98)
     local toggle_kimi = make_ai_toggle("kimi", "kimi", 97)
     local toggle_claude = make_ai_toggle("claude", "claude", 96)
