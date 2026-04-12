@@ -348,10 +348,11 @@ local plugin = {
   config = function()
     apply_highlights()
 
-    local toggle_codex = make_ai_toggle("codex", "codex", 99)
+    local toggle_codex =
+      make_ai_toggle("codex", "codex resume --last --ask-for-approval never --sandbox danger-full-access", 99)
     local toggle_gemini = make_ai_toggle("gemini", "gemini", 98)
-    local toggle_kimi = make_ai_toggle("kimi", "kimi", 97)
-    local toggle_claude = make_ai_toggle("claude", "claude", 96)
+    local toggle_kimi = make_ai_toggle("kimi", "kimi --yolo", 97)
+    local toggle_claude = make_ai_toggle("claude", "claude --dangerously-skip-permissions", 96)
     local toggle_opencode = make_ai_toggle("opencode", "opencode", 95)
     vim.keymap.set({ "n", "t" }, "<leader>tc", toggle_codex, {
       desc = "Toggle Codex terminal",
