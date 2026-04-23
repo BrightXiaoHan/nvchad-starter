@@ -150,7 +150,6 @@ function Terminal:_register_autocmds()
 
   api.nvim_create_autocmd("VimResized", {
     group = augroup,
-    buffer = self.buf,
     callback = function()
       if self:is_open() then
         api.nvim_win_set_config(self.win, float_config(self))
