@@ -36,7 +36,9 @@ end
 local opts = {
   git = {
     enable = true,
-    ignore = false,
+    timeout = 500,
+    show_on_dirs = true,
+    show_on_open_dirs = true,
   },
 
   filters = { dotfiles = false, custom = { "^.git$", "^__pycache__", "^.venv" } },
