@@ -57,7 +57,6 @@ end
 
 local plugin = {
   "lewis6991/gitsigns.nvim",
-  event = "User FilePost",
   opts = {
     signs = {
       delete = { text = "󰍵" },

@@ -1,10 +1,9 @@
 local function load_plugins()
-  -- Use vim.fn.glob to get all .lua files in the folder
   local all_config = {}
-
   local plugin_dir = vim.fn.stdpath "config" .. "/lua/plugins"
-
   local files = vim.fn.readdir(plugin_dir)
+
+  table.sort(files)
 
   for _, file in ipairs(files) do
     if file:match "%.lua$" and file ~= "init.lua" then
@@ -22,11 +21,24 @@ end
 
 local all_config = load_plugins()
 
----@type NvPluginSpec[]
-local plugins = { -- Override plugin definition options
+local plugins = {
+  "nvim-lua/plenary.nvim",
+  { "nvim-tree/nvim-web-devicons" },
+  {
+    "nvchad/ui",
+    config = function()
+      require "nvchad"
+    end,
+  },
+  {
+    "nvchad/base46",
+    build = function()
+      require("base46").load_all_highlights()
+    end,
+  },
+  "nvchad/volt",
   {
     "max397574/better-escape.nvim",
-    event = "InsertEnter",
     config = function()
       require("better_escape").setup()
     end,
@@ -34,10 +46,23 @@ local plugins = { -- Override plugin definition options
   {
     "pteroctopus/faster.nvim",
   },
-  -- import all plugins from the plugins directory
-  -- this is a good way to keep the init.lua file clean
+  {
+    "nvim-telescope/telescope.nvim",
+    opts = function()
+      return require("configs.telescope").opts()
+    end,
+    init = function()
+      require("configs.telescope").init()
+    end,
+    config = function(_, opts)
+      require("configs.telescope").setup(opts)
+    end,
+    cond = function()
+      return not vim.g.vscode
+    end,
+  },
 }
--- merge all_config into plugins
+
 for _, config in ipairs(all_config) do
   table.insert(plugins, config)
 end

@@ -9,7 +9,6 @@ local plugin = {
     "ibhagwan/fzf-lua", -- optional
   },
   config = true,
-  lazy = false,
   init = function()
     vim.keymap.set("n", "<leader>gm", "<cmd>lua require'neogit'.open({ kind = 'split' })<CR>", {
       desc = "Open Neogit",

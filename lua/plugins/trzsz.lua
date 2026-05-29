@@ -1,4 +1,4 @@
-local local_trzsz = vim.fn.expand("~/gitrepo/nvim-trzsz")
+local local_trzsz = vim.fn.expand "~/gitrepo/nvim-trzsz"
 local use_local = vim.fn.isdirectory(local_trzsz) == 1
 
 local plugin
@@ -15,8 +15,6 @@ else
     dependencies = { "nvim-tree/nvim-tree.lua" },
   }
 end
-
-plugin.ft = "NvimTree"
 
 plugin.config = function()
   local group = vim.api.nvim_create_augroup("TrzszNvimTreeKeys", { clear = true })

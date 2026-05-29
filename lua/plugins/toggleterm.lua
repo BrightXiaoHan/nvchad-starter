@@ -27,6 +27,11 @@ local hl_groups = {
 
 local augroup = api.nvim_create_augroup("LocalToggleTerm", { clear = true })
 
+local function nvim_is_exiting()
+  local exiting = vim.v.exiting
+  return exiting ~= nil and exiting ~= vim.NIL and exiting ~= 0
+end
+
 local function apply_highlights()
   local normal = highlights.NormalFloat or {}
   local border = highlights.FloatBorder or {}
@@ -87,6 +92,9 @@ function Terminal:new(opts)
   term.win = nil
   term.job = nil
   term.autocmds = false
+  term.resize_autocmd = nil
+  term.termclose_autocmd = nil
+  term.cleanup_scheduled = false
   return term
 end
 
@@ -142,13 +150,67 @@ function Terminal:_apply_win_options()
   vim.wo[self.win].sidescrolloff = 0
 end
 
+function Terminal:_close_win()
+  if self:_win_valid() then
+    pcall(api.nvim_win_close, self.win, true)
+  end
+  self.win = nil
+end
+
+function Terminal:_delete_buf()
+  if self:_buf_valid() then
+    pcall(api.nvim_buf_delete, self.buf, { force = true })
+  end
+  self.buf = nil
+end
+
+function Terminal:_clear_autocmds()
+  if self.resize_autocmd then
+    pcall(api.nvim_del_autocmd, self.resize_autocmd)
+    self.resize_autocmd = nil
+  end
+  if self.termclose_autocmd then
+    pcall(api.nvim_del_autocmd, self.termclose_autocmd)
+    self.termclose_autocmd = nil
+  end
+  self.autocmds = false
+end
+
+function Terminal:_schedule_exit_cleanup()
+  self.job = nil
+  if nvim_is_exiting() then
+    return
+  end
+  if self.cleanup_scheduled then
+    return
+  end
+  self.cleanup_scheduled = true
+
+  local ok = pcall(vim.schedule, function()
+    self.cleanup_scheduled = false
+
+    if nvim_is_exiting() then
+      return
+    end
+
+    if self.close_on_exit then
+      self:_close_win()
+      self:_delete_buf()
+    end
+    self:_clear_autocmds()
+  end)
+  if not ok then
+    self.cleanup_scheduled = false
+  end
+end
+
 function Terminal:_register_autocmds()
   if self.autocmds or not self:_buf_valid() then
     return
   end
   self.autocmds = true
 
-  api.nvim_create_autocmd("VimResized", {
+  self.resize_autocmd = api.nvim_create_autocmd("VimResized", {
     group = augroup,
     callback = function()
       if self:is_open() then
@@ -157,22 +219,11 @@ function Terminal:_register_autocmds()
     end,
   })
 
-  api.nvim_create_autocmd("TermClose", {
+  self.termclose_autocmd = api.nvim_create_autocmd("TermClose", {
     group = augroup,
     buffer = self.buf,
     callback = function()
-      self.job = nil
-      if self.close_on_exit then
-        if self:_win_valid() then
-          api.nvim_win_close(self.win, true)
-        end
-        self.win = nil
-        if self:_buf_valid() then
-          api.nvim_buf_delete(self.buf, { force = true })
-        end
-        self.buf = nil
-        self.autocmds = false
-      end
+      self:_schedule_exit_cleanup()
     end,
   })
 end
@@ -193,18 +244,7 @@ function Terminal:_start_job()
   self.job = fn.termopen(cmd, {
     detach = 1,
     on_exit = function()
-      if self.close_on_exit then
-        if self:_win_valid() then
-          api.nvim_win_close(self.win, true)
-        end
-        self.win = nil
-        if self:_buf_valid() then
-          api.nvim_buf_delete(self.buf, { force = true })
-        end
-        self.buf = nil
-      end
-      self.job = nil
-      self.autocmds = false
+      self:_schedule_exit_cleanup()
     end,
   })
 end
@@ -218,15 +258,12 @@ function Terminal:open()
   self:_apply_buf_options()
   self:_register_autocmds()
   if api.nvim_get_current_win() == win then
-    vim.cmd("startinsert")
+    vim.cmd "startinsert"
   end
 end
 
 function Terminal:close()
-  if self:_win_valid() then
-    api.nvim_win_close(self.win, true)
-  end
-  self.win = nil
+  self:_close_win()
 end
 
 function Terminal:toggle()
@@ -242,15 +279,9 @@ function Terminal:shutdown()
     pcall(fn.jobstop, self.job)
   end
   self.job = nil
-  if self:_win_valid() then
-    api.nvim_win_close(self.win, true)
-  end
-  self.win = nil
-  if self:_buf_valid() then
-    api.nvim_buf_delete(self.buf, { force = true })
-  end
-  self.buf = nil
-  self.autocmds = false
+  self:_close_win()
+  self:_delete_buf()
+  self:_clear_autocmds()
 end
 
 -- AI terminals state management (mutually exclusive)
@@ -347,8 +378,11 @@ local plugin = {
   config = function()
     apply_highlights()
 
-    local toggle_codex =
-      make_ai_toggle("codex", "codex resume --last --ask-for-approval never --sandbox danger-full-access", 99)
+    local toggle_codex = make_ai_toggle(
+      "codex",
+      "codex resume --last --no-alt-screen --ask-for-approval never --sandbox danger-full-access",
+      99
+    )
     local toggle_gemini = make_ai_toggle("gemini", "gemini", 98)
     local toggle_kimi = make_ai_toggle("kimi", "kimi --yolo", 97)
     local toggle_claude = make_ai_toggle("claude", "claude --dangerously-skip-permissions", 96)
@@ -372,7 +406,6 @@ local plugin = {
       desc = "Toggle OpenCode terminal",
     })
   end,
-  lazy = false,
   init = function()
     local toggle_tab = make_float_bottom_toggle()
     vim.keymap.set("n", "<C-\\>", toggle_tab, {

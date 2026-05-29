@@ -92,7 +92,6 @@ local plugin = {
   cond = function()
     return not vim.g.vscode
   end,
-  lazy = false,
 }
 
 return plugin

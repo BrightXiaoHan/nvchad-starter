@@ -44,8 +44,6 @@ end
 
 local plugin = {
   "stevearc/conform.nvim",
-  --  for users those who want auto-save conform + lazyloading!
-  -- event = "BufWritePre"
   config = config,
   init = function()
     vim.api.nvim_create_user_command("PyRemoveUnusedImports", remove_unused_imports, {})

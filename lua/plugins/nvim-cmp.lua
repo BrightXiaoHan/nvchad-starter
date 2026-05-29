@@ -1,5 +1,5 @@
 local opts = function()
-  cmp = require "nvim-cmp"
+  local cmp = require "cmp"
   local opts = {
     mapping = {
       ["<Up>"] = cmp.mapping.select_prev_item(),
@@ -12,13 +12,12 @@ local opts = function()
       { name = "nvim_lsp", max_item_count = 3 },
       { name = "buffer" },
       { name = "nvim_lua" },
-      { name = "treesitter" },
     },
     -- disable auto-complete
     -- completion = {
     -- 	autocomplete = false,
     -- },
-    cond = function()
+    enabled = function()
       return not vim.g.vscode
     end,
   }
@@ -27,7 +26,17 @@ end
 
 local plugin = {
   "hrsh7th/nvim-cmp",
+  dependencies = {
+    "hrsh7th/cmp-buffer",
+    "hrsh7th/cmp-nvim-lsp",
+    "hrsh7th/cmp-nvim-lua",
+    "hrsh7th/cmp-path",
+  },
+  main = "cmp",
   opts = opts,
+  cond = function()
+    return not vim.g.vscode
+  end,
 }
 
 return plugin
