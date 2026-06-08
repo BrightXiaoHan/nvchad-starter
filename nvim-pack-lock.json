@@ -5,11 +5,6 @@
       "src": "https://github.com/nvchad/base46",
       "version": "'v3.0'"
     },
-    "better-escape.nvim": {
-      "rev": "19a38aab94961016430905ebec30d272a01e9742",
-      "src": "https://github.com/max397574/better-escape.nvim",
-      "version": "'master'"
-    },
     "cmp-buffer": {
       "rev": "b74fab3656eea9de20a9b8116afa3cfc4ec09657",
       "src": "https://github.com/hrsh7th/cmp-buffer",

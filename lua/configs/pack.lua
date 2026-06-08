@@ -32,7 +32,6 @@ local disabled_builtin_plugins = {
 
 local branch_by_name = {
   ["base46"] = "v3.0",
-  ["better-escape.nvim"] = "master",
   ["cmp-buffer"] = "main",
   ["cmp-nvim-lsp"] = "main",
   ["cmp-nvim-lua"] = "main",

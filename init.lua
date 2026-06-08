@@ -19,6 +19,7 @@ end
 require "cmd"
 require "autocmd"
 require "options"
+require("configs.better_escape").setup()
 
 vim.schedule(function()
   require "mappings"
