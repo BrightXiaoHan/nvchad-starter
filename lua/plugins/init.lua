@@ -38,9 +38,6 @@ local plugins = {
   },
   "nvchad/volt",
   {
-    "pteroctopus/faster.nvim",
-  },
-  {
     "nvim-telescope/telescope.nvim",
     opts = function()
       return require("configs.telescope").opts()

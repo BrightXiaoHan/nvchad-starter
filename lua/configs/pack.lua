@@ -38,7 +38,6 @@ local branch_by_name = {
   ["cmp-path"] = "main",
   ["conform.nvim"] = "master",
   ["diffview.nvim"] = "main",
-  ["faster.nvim"] = "main",
   ["flatten.nvim"] = "main",
   ["fzf-lua"] = "main",
   ["gitsigns.nvim"] = "main",

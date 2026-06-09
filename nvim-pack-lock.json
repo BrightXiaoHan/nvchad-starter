@@ -35,11 +35,6 @@
       "src": "https://github.com/sindrets/diffview.nvim",
       "version": "'main'"
     },
-    "faster.nvim": {
-      "rev": "2e7a50f659711854b9a7fdc76d943b59b30d7852",
-      "src": "https://github.com/pteroctopus/faster.nvim",
-      "version": "'main'"
-    },
     "flatten.nvim": {
       "rev": "72527798e75b5e34757491947c2cb853ce21dc0e",
       "src": "https://github.com/willothy/flatten.nvim",
