@@ -1,5 +1,6 @@
 local api = vim.api
 local fn = vim.fn
+local M = {}
 
 -- if win32, use pwsh
 -- otherwise, use fish
@@ -372,58 +373,55 @@ local function make_float_bottom_toggle()
   end
 end
 
-local plugin = {
-  "local-toggleterm",
-  dir = vim.fn.stdpath "config",
-  config = function()
-    apply_highlights()
+function M.setup()
+  if vim.g.vscode then
+    return
+  end
 
-    local toggle_codex = make_ai_toggle(
-      "codex",
-      "codex resume --last --no-alt-screen --ask-for-approval never --sandbox danger-full-access",
-      99
-    )
-    local toggle_gemini = make_ai_toggle("gemini", "gemini", 98)
-    local toggle_kimi = make_ai_toggle("kimi", "kimi --yolo", 97)
-    local toggle_claude = make_ai_toggle("claude", "claude --dangerously-skip-permissions", 96)
-    local toggle_opencode = make_ai_toggle("opencode", "opencode", 95)
-    vim.keymap.set({ "n", "t" }, "<leader>tc", toggle_codex, {
-      desc = "Toggle Codex terminal",
-    })
-    vim.keymap.set({ "n", "t" }, "<A-l>", toggle_codex, {
-      desc = "Toggle Codex terminal",
-    })
-    vim.keymap.set({ "n", "t" }, "<A-g>", toggle_gemini, {
-      desc = "Toggle Gemini terminal",
-    })
-    vim.keymap.set({ "n", "t" }, "<A-k>", toggle_kimi, {
-      desc = "Toggle Kimi terminal",
-    })
-    vim.keymap.set({ "n", "t" }, "<A-c>", toggle_claude, {
-      desc = "Toggle Claude Code terminal",
-    })
-    vim.keymap.set({ "n", "t" }, "<A-p>", toggle_opencode, {
-      desc = "Toggle OpenCode terminal",
-    })
-  end,
-  init = function()
-    local toggle_tab = make_float_bottom_toggle()
-    vim.keymap.set("n", "<C-\\>", toggle_tab, {
-      desc = "Toggle tab term",
-    })
-    vim.keymap.set("t", "<C-\\>", toggle_tab, {
-      desc = "Toggle tab term",
-    })
-    vim.keymap.set("n", "<C-`>", toggle_tab, {
-      desc = "Toggle tab term",
-    })
-    vim.keymap.set("t", "<C-`>", toggle_tab, {
-      desc = "Toggle tab term",
-    })
-  end,
-  cond = function()
-    return not vim.g.vscode
-  end,
-}
+  apply_highlights()
 
-return plugin
+  local toggle_tab = make_float_bottom_toggle()
+  vim.keymap.set("n", "<C-\\>", toggle_tab, {
+    desc = "Toggle tab term",
+  })
+  vim.keymap.set("t", "<C-\\>", toggle_tab, {
+    desc = "Toggle tab term",
+  })
+  vim.keymap.set("n", "<C-`>", toggle_tab, {
+    desc = "Toggle tab term",
+  })
+  vim.keymap.set("t", "<C-`>", toggle_tab, {
+    desc = "Toggle tab term",
+  })
+
+  local toggle_codex = make_ai_toggle(
+    "codex",
+    "codex resume --last --no-alt-screen --ask-for-approval never --sandbox danger-full-access",
+    99
+  )
+  local toggle_gemini = make_ai_toggle("gemini", "gemini", 98)
+  local toggle_kimi = make_ai_toggle("kimi", "kimi --yolo", 97)
+  local toggle_claude = make_ai_toggle("claude", "claude --dangerously-skip-permissions", 96)
+  local toggle_opencode = make_ai_toggle("opencode", "opencode", 95)
+
+  vim.keymap.set({ "n", "t" }, "<leader>tc", toggle_codex, {
+    desc = "Toggle Codex terminal",
+  })
+  vim.keymap.set({ "n", "t" }, "<A-l>", toggle_codex, {
+    desc = "Toggle Codex terminal",
+  })
+  vim.keymap.set({ "n", "t" }, "<A-g>", toggle_gemini, {
+    desc = "Toggle Gemini terminal",
+  })
+  vim.keymap.set({ "n", "t" }, "<A-k>", toggle_kimi, {
+    desc = "Toggle Kimi terminal",
+  })
+  vim.keymap.set({ "n", "t" }, "<A-c>", toggle_claude, {
+    desc = "Toggle Claude Code terminal",
+  })
+  vim.keymap.set({ "n", "t" }, "<A-p>", toggle_opencode, {
+    desc = "Toggle OpenCode terminal",
+  })
+end
+
+return M

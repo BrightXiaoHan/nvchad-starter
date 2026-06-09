@@ -21,6 +21,7 @@ require "autocmd"
 require "options"
 require("configs.better_escape").setup()
 require("configs.bigfile").setup()
+require("configs.local_terminal").setup()
 
 vim.schedule(function()
   require "mappings"
