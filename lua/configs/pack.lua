@@ -32,13 +32,10 @@ local disabled_builtin_plugins = {
 
 local branch_by_name = {
   ["base46"] = "v3.0",
-  ["diffview.nvim"] = "main",
   ["gitsigns.nvim"] = "main",
-  ["neogit"] = "master",
   ["nvim-lspconfig"] = "master",
   ["nvim-tree.lua"] = "master",
   ["nvim-web-devicons"] = "master",
-  ["plenary.nvim"] = "master",
   ["ui"] = "v3.0",
   ["volt"] = "main",
 }
