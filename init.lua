@@ -1,6 +1,7 @@
 vim.g.base46_cache = vim.fn.stdpath "data" .. "/nvchad/base46/"
 vim.g.mapleader = " "
 
+require("configs.flatten").setup()
 require("configs.pack").setup(require "plugins")
 
 if vim.fn.isdirectory(vim.g.base46_cache) == 0 then
