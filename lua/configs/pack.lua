@@ -35,7 +35,6 @@ local branch_by_name = {
   ["conform.nvim"] = "master",
   ["diffview.nvim"] = "main",
   ["flatten.nvim"] = "main",
-  ["fzf-lua"] = "main",
   ["gitsigns.nvim"] = "main",
   ["neogit"] = "master",
   ["nvim-lspconfig"] = "master",
