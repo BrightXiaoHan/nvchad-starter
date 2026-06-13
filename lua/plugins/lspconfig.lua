@@ -1,9 +1,5 @@
 local function config()
   local capabilities = vim.lsp.protocol.make_client_capabilities()
-  local ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
-  if ok then
-    capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
-  end
 
   local servers = { "clangd", "pyright", "lua_ls", "bashls" }
 
@@ -60,11 +56,31 @@ end
 
 local plugin = {
   "neovim/nvim-lspconfig",
-  dependencies = {
-    "hrsh7th/cmp-nvim-lsp",
-  },
   config = config,
   init = function()
+    vim.opt.completeopt:append { "menuone", "noselect", "popup" }
+    vim.keymap.set("i", "<C-Space>", function()
+      vim.lsp.completion.get()
+    end, {
+      desc = "Trigger LSP completion",
+    })
+
+    vim.api.nvim_create_autocmd("LspAttach", {
+      group = vim.api.nvim_create_augroup("LocalLspCompletion", { clear = true }),
+      callback = function(args)
+        if vim.g.vscode then
+          return
+        end
+
+        local client = vim.lsp.get_client_by_id(args.data.client_id)
+        if client and client:supports_method "textDocument/completion" then
+          vim.lsp.completion.enable(true, client.id, args.buf, {
+            autotrigger = true,
+          })
+        end
+      end,
+    })
+
     vim.keymap.set("n", "<leader>lr", "<cmd>lua vim.lsp.buf.rename()<cr>", {
       desc = "Rename",
     })

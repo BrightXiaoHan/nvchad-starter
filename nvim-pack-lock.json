@@ -5,26 +5,6 @@
       "src": "https://github.com/nvchad/base46",
       "version": "'v3.0'"
     },
-    "cmp-buffer": {
-      "rev": "b74fab3656eea9de20a9b8116afa3cfc4ec09657",
-      "src": "https://github.com/hrsh7th/cmp-buffer",
-      "version": "'main'"
-    },
-    "cmp-nvim-lsp": {
-      "rev": "cbc7b02bb99fae35cb42f514762b89b5126651ef",
-      "src": "https://github.com/hrsh7th/cmp-nvim-lsp",
-      "version": "'main'"
-    },
-    "cmp-nvim-lua": {
-      "rev": "e3a22cb071eb9d6508a156306b102c45cd2d573d",
-      "src": "https://github.com/hrsh7th/cmp-nvim-lua",
-      "version": "'main'"
-    },
-    "cmp-path": {
-      "rev": "c642487086dbd9a93160e1679a1327be111cbc25",
-      "src": "https://github.com/hrsh7th/cmp-path",
-      "version": "'main'"
-    },
     "conform.nvim": {
       "rev": "1bf8b5b9caee51507aa51eaed3da5b0f2595c6b9",
       "src": "https://github.com/stevearc/conform.nvim",
@@ -54,11 +34,6 @@
       "rev": "4ba620addbeeca2594c794b151e611c037973480",
       "src": "https://github.com/NeogitOrg/neogit",
       "version": "'master'"
-    },
-    "nvim-cmp": {
-      "rev": "d97d85e01339f01b842e6ec1502f639b080cb0fc",
-      "src": "https://github.com/hrsh7th/nvim-cmp",
-      "version": "'main'"
     },
     "nvim-lspconfig": {
       "rev": "b7c48a7111534b66bee077da8035ac7208a294ff",
@@ -93,11 +68,6 @@
     "volt": {
       "rev": "620de1321f275ec9d80028c68d1b88b409c0c8b1",
       "src": "https://github.com/nvchad/volt",
-      "version": "'main'"
-    },
-    "which-key.nvim": {
-      "rev": "3aab2147e74890957785941f0c1ad87d0a44c15a",
-      "src": "https://github.com/folke/which-key.nvim",
       "version": "'main'"
     }
   }

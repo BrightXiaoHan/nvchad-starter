@@ -32,17 +32,12 @@ local disabled_builtin_plugins = {
 
 local branch_by_name = {
   ["base46"] = "v3.0",
-  ["cmp-buffer"] = "main",
-  ["cmp-nvim-lsp"] = "main",
-  ["cmp-nvim-lua"] = "main",
-  ["cmp-path"] = "main",
   ["conform.nvim"] = "master",
   ["diffview.nvim"] = "main",
   ["flatten.nvim"] = "main",
   ["fzf-lua"] = "main",
   ["gitsigns.nvim"] = "main",
   ["neogit"] = "master",
-  ["nvim-cmp"] = "main",
   ["nvim-lspconfig"] = "master",
   ["nvim-tree.lua"] = "master",
   ["nvim-web-devicons"] = "master",
@@ -50,11 +45,9 @@ local branch_by_name = {
   ["telescope.nvim"] = "master",
   ["ui"] = "v3.0",
   ["volt"] = "main",
-  ["which-key.nvim"] = "main",
 }
 
 local main_by_name = {
-  ["nvim-cmp"] = "cmp",
   ["nvim-tree.lua"] = "nvim-tree",
 }
 
