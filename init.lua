@@ -22,6 +22,7 @@ require "autocmd"
 require "options"
 require("configs.better_escape").setup()
 require("configs.bigfile").setup()
+require("configs.lsp").setup()
 require("configs.format").setup()
 require("configs.local_terminal").setup()
 require("configs.search").setup()
