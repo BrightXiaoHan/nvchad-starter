@@ -23,6 +23,7 @@ require("configs.better_escape").setup()
 require("configs.bigfile").setup()
 require("configs.format").setup()
 require("configs.local_terminal").setup()
+require("configs.search").setup()
 
 vim.schedule(function()
   require "mappings"

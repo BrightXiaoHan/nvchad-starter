@@ -40,7 +40,6 @@ local branch_by_name = {
   ["nvim-tree.lua"] = "master",
   ["nvim-web-devicons"] = "master",
   ["plenary.nvim"] = "master",
-  ["telescope.nvim"] = "master",
   ["ui"] = "v3.0",
   ["volt"] = "main",
 }

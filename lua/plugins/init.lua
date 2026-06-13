@@ -37,21 +37,6 @@ local plugins = {
     end,
   },
   "nvchad/volt",
-  {
-    "nvim-telescope/telescope.nvim",
-    opts = function()
-      return require("configs.telescope").opts()
-    end,
-    init = function()
-      require("configs.telescope").init()
-    end,
-    config = function(_, opts)
-      require("configs.telescope").setup(opts)
-    end,
-    cond = function()
-      return not vim.g.vscode
-    end,
-  },
 }
 
 for _, config in ipairs(all_config) do

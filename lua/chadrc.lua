@@ -40,9 +40,9 @@ else
     load_on_startup = true,
     buttons = function()
       return {
-        { txt = "  Find File", keys = "ff", cmd = "Telescope find_files" },
-        { txt = "  Recent Files", keys = "fo", cmd = "Telescope oldfiles" },
-        { txt = "󰈭  Find Word", keys = "fw", cmd = "Telescope live_grep" },
+        { txt = "  Find File", keys = "ff", cmd = "LocalFindFiles" },
+        { txt = "  Recent Files", keys = "fo", cmd = "LocalOldfiles" },
+        { txt = "󰈭  Find Word", keys = "fw", cmd = "LocalLiveGrep" },
         { txt = "󱥚  Themes", keys = "th", cmd = ":lua require('nvchad.themes').open()" },
         { txt = "  Mappings", keys = "ch", cmd = "NvCheatsheet" },
         { txt = "─", hl = "NvDashFooter", no_gap = true, rep = true },
