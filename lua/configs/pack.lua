@@ -36,6 +36,7 @@ local branch_by_name = {
   ["gitsigns.nvim"] = "main",
   ["nvim-tree.lua"] = "master",
   ["nvim-web-devicons"] = "master",
+  ["plenary.nvim"] = "master",
   ["ui"] = "v3.0",
   ["volt"] = "main",
 }

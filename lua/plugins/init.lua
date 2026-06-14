@@ -22,6 +22,7 @@ end
 local all_config = load_plugins()
 
 local plugins = {
+  "nvim-lua/plenary.nvim",
   { "nvim-tree/nvim-web-devicons" },
   {
     "nvchad/ui",
