@@ -5,6 +5,11 @@
       "src": "https://github.com/nvchad/base46",
       "version": "'v3.0'"
     },
+    "flatten.nvim": {
+      "rev": "72527798e75b5e34757491947c2cb853ce21dc0e",
+      "src": "https://github.com/willothy/flatten.nvim",
+      "version": "'main'"
+    },
     "gitsigns.nvim": {
       "rev": "cdafc320f03f2572c40ab93a4eecb733d4016d07",
       "src": "https://github.com/lewis6991/gitsigns.nvim",
