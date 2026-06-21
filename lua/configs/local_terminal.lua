@@ -311,7 +311,7 @@ local function get_or_create_ai_term(name, cmd, id)
   if not term then
     term = Terminal:new {
       cmd = cmd,
-      close_on_exit = false,
+      close_on_exit = true,
       id = id,
       float_opts = {
         border = "none",
