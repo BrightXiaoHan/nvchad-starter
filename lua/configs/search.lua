@@ -1,5 +1,7 @@
 local M = {}
 
+local window = require "configs.window"
+
 local uv = vim.uv or vim.loop
 
 local root_markers = {
@@ -66,6 +68,7 @@ local function open_file(path)
     return
   end
 
+  window.focus_editable()
   vim.cmd.edit(vim.fn.fnameescape(path))
 end
 

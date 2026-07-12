@@ -1,5 +1,6 @@
 local api = vim.api
 local fn = vim.fn
+local window = require "configs.window"
 local M = {}
 
 -- if win32, use pwsh
@@ -87,6 +88,7 @@ function Terminal:new(opts)
   local term = setmetatable({}, Terminal)
   term.id = opts.id
   term.cmd = opts.cmd
+  term.mode = opts.mode or "float"
   term.float_opts = opts.float_opts or {}
   term.close_on_exit = opts.close_on_exit ~= false
   term.buf = nil
@@ -143,12 +145,17 @@ function Terminal:_apply_win_options()
   end
   vim.wo[self.win].number = false
   vim.wo[self.win].relativenumber = false
-  vim.wo[self.win].winhl = "NormalFloat:" .. hl_groups.normal .. ",FloatBorder:" .. hl_groups.border
-  if self.float_opts.winblend ~= nil then
-    vim.wo[self.win].winblend = self.float_opts.winblend
-  end
   vim.wo[self.win].scrolloff = 0
   vim.wo[self.win].sidescrolloff = 0
+  if self.mode == "split" then
+    -- lock the buffer so file opens never overwrite this terminal window
+    vim.wo[self.win].winfixbuf = true
+  else
+    vim.wo[self.win].winhl = "NormalFloat:" .. hl_groups.normal .. ",FloatBorder:" .. hl_groups.border
+    if self.float_opts.winblend ~= nil then
+      vim.wo[self.win].winblend = self.float_opts.winblend
+    end
+  end
 end
 
 function Terminal:_close_win()
@@ -211,14 +218,16 @@ function Terminal:_register_autocmds()
   end
   self.autocmds = true
 
-  self.resize_autocmd = api.nvim_create_autocmd("VimResized", {
-    group = augroup,
-    callback = function()
-      if self:is_open() then
-        api.nvim_win_set_config(self.win, float_config(self))
-      end
-    end,
-  })
+  if self.mode == "float" then
+    self.resize_autocmd = api.nvim_create_autocmd("VimResized", {
+      group = augroup,
+      callback = function()
+        if self:is_open() then
+          api.nvim_win_set_config(self.win, float_config(self))
+        end
+      end,
+    })
+  end
 
   self.termclose_autocmd = api.nvim_create_autocmd("TermClose", {
     group = augroup,
@@ -251,6 +260,28 @@ function Terminal:_start_job()
 end
 
 function Terminal:open()
+  if self.mode == "split" then
+    self:_open_split()
+  else
+    self:_open_float()
+  end
+end
+
+function Terminal:_open_split()
+  local buf = self:_ensure_buf()
+  vim.cmd "topleft vsplit"
+  self.win = api.nvim_get_current_win()
+  api.nvim_win_set_buf(self.win, buf)
+  self:_apply_win_options()
+  self:_start_job()
+  self:_apply_buf_options()
+  self:_register_autocmds()
+  if api.nvim_get_current_win() == self.win then
+    vim.cmd "startinsert"
+  end
+end
+
+function Terminal:_open_float()
   local buf = self:_ensure_buf()
   local win = api.nvim_open_win(buf, true, float_config(self))
   self.win = win
@@ -299,33 +330,12 @@ end
 local function get_or_create_ai_term(name, cmd, id)
   local term = ai_terms[name]
 
-  -- Handle codex special case: different cmd means recreate terminal
-  if term and term.cmd ~= cmd then
-    if term:is_open() then
-      return term
-    end
-    term:shutdown()
-    term = nil
-  end
-
   if not term then
     term = Terminal:new {
       cmd = cmd,
       close_on_exit = true,
       id = id,
-      float_opts = {
-        border = "none",
-        width = function()
-          return math.floor(vim.o.columns / 2)
-        end,
-        height = function()
-          return vim.o.lines
-        end,
-        col = function()
-          return math.ceil(vim.o.columns / 2) -- right aligned
-        end,
-        row = 0,
-      },
+      mode = "split",
     }
     ai_terms[name] = term
   end
@@ -374,6 +384,90 @@ local function make_float_bottom_toggle()
   end
 end
 
+-- Recreate a central window after the last editable one closes. Instead of a
+-- blank buffer, render the NvDash startup page so it matches startup.
+local function open_dashboard()
+  local tree_win
+  for _, win in ipairs(api.nvim_tabpage_list_wins(0)) do
+    if api.nvim_win_is_valid(win) and vim.bo[api.nvim_win_get_buf(win)].filetype == "NvimTree" then
+      tree_win = win
+      break
+    end
+  end
+
+  if tree_win then
+    -- nvim-tree is on the right: open the new window to its left
+    api.nvim_set_current_win(tree_win)
+    vim.cmd "leftabove vnew"
+  else
+    -- only a left sidebar (agent term) or nothing: open on the far right
+    vim.cmd "botright vnew"
+  end
+
+  -- nvchad.nvdash.open() creates its own buffer and shows it in the current
+  -- window; delete the throwaway buffer created by vnew.
+  local scratch = api.nvim_get_current_buf()
+  local ok = pcall(function()
+    require("nvchad.nvdash").open()
+  end)
+  if ok and api.nvim_buf_is_valid(scratch) then
+    pcall(api.nvim_buf_delete, scratch, { force = true })
+  end
+end
+
+-- window classifiers used by the <leader>q quit cascade
+local function win_filetype(win)
+  return vim.bo[api.nvim_win_get_buf(win)].filetype
+end
+
+local function is_file_window(win)
+  -- editable window that is not the nvdash dashboard
+  return window.is_editable(win) and win_filetype(win) ~= "nvdash"
+end
+
+local function find_window(pred)
+  for _, win in ipairs(api.nvim_tabpage_list_wins(0)) do
+    if api.nvim_win_is_valid(win) and pred(win) then
+      return win
+    end
+  end
+end
+
+-- Cascading quit bound to <leader>q:
+--   1. a real file/edit window is open   -> replace it with the NvDash startup page
+--   2. sidebars remain                    -> close nvim-tree, then the agent term
+--   3. only the dashboard / nothing left  -> exit neovim
+function M.quit_cascade()
+  if find_window(is_file_window) then
+    local cur = api.nvim_get_current_win()
+    local target = is_file_window(cur) and cur or find_window(is_file_window)
+    if target then
+      api.nvim_set_current_win(target)
+      pcall(function()
+        require("nvchad.nvdash").open()
+      end)
+    end
+    return
+  end
+
+  local tree_win = find_window(function(w)
+    return win_filetype(w) == "NvimTree"
+  end)
+  local pi_term = ai_terms["pi"]
+
+  if tree_win or (pi_term and pi_term:is_open()) then
+    if tree_win then
+      pcall(api.nvim_win_close, tree_win, false)
+    end
+    if pi_term and pi_term:is_open() then
+      pi_term:close()
+    end
+    return
+  end
+
+  vim.cmd "qa"
+end
+
 function M.setup()
   if vim.g.vscode then
     return
@@ -395,25 +489,29 @@ function M.setup()
     desc = "Toggle tab term",
   })
 
-  local toggle_codex = make_ai_toggle(
-    "codex",
-    "codex resume --last --no-alt-screen --ask-for-approval never --sandbox danger-full-access",
-    99
-  )
-  local toggle_claude = make_ai_toggle("claude", "claude --dangerously-skip-permissions", 96)
   local toggle_pi = make_ai_toggle("pi", "pi", 95)
 
-  vim.keymap.set({ "n", "t" }, "<leader>tc", toggle_codex, {
-    desc = "Toggle Codex terminal",
-  })
-  vim.keymap.set({ "n", "t" }, "<A-l>", toggle_codex, {
-    desc = "Toggle Codex terminal",
-  })
-  vim.keymap.set({ "n", "t" }, "<A-c>", toggle_claude, {
-    desc = "Toggle Claude Code terminal",
-  })
   vim.keymap.set({ "n", "t" }, "<A-p>", toggle_pi, {
     desc = "Toggle Pi terminal",
+  })
+
+  -- Keep at least one normal editing window: closing the last editable window
+  -- (leaving only sidebars like the agent term / nvim-tree) recreates one.
+  api.nvim_create_autocmd("WinClosed", {
+    group = augroup,
+    callback = function()
+      vim.schedule(function()
+        local exiting = vim.v.exiting
+        if exiting ~= nil and exiting ~= vim.NIL then
+          return
+        end
+        if window.has_editable(0) then
+          return
+        end
+
+        pcall(open_dashboard)
+      end)
+    end,
   })
 end
 

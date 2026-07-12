@@ -40,9 +40,9 @@ map("n", "<A-Down>", "<C-w>-", {
 map("n", "<leader><tab>", "<C-w>w", {
   desc = "Switch window",
 })
-map("n", "<leader>q", "<cmd>q<cr>", {
-  desc = "Quit",
-})
+map("n", "<leader>q", function()
+  require("configs.local_terminal").quit_cascade()
+end, { desc = "Quit cascade" })
 map("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
 
 -- Custom cmd mappings
