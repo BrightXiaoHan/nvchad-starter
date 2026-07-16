@@ -28,9 +28,29 @@ autocmd({ "UIEnter", "BufReadPost", "BufNewFile" }, {
 
 autocmd({ "BufLeave", "BufWinLeave", "BufUnload", "BufDelete", "QuitPre" }, {
     group = vim.api.nvim_create_augroup("AutoSaveOnExit", { clear = true }),
-    callback = function()
-        if vim.bo.modified and vim.bo.modifiable and vim.bo.buftype == "" then
-            vim.cmd("silent update")
+    callback = function(args)
+        local function save_buf(buf)
+            if not buf or not vim.api.nvim_buf_is_valid(buf) then
+                return
+            end
+
+            local modified = vim.api.nvim_get_option_value("modified", { buf = buf })
+            local modifiable = vim.api.nvim_get_option_value("modifiable", { buf = buf })
+            local buftype = vim.api.nvim_get_option_value("buftype", { buf = buf })
+
+            if modified and modifiable and buftype == "" then
+                pcall(vim.api.nvim_buf_call, buf, function()
+                    vim.cmd "silent update"
+                end)
+            end
+        end
+
+        if args.event == "QuitPre" then
+            for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+                save_buf(buf)
+            end
+        else
+            save_buf(args.buf)
         end
     end,
 })
